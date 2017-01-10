@@ -1,0 +1,8 @@
+Java implementation of the Sharemind protocols of the following article:
+
+[Hight-performance secure multi-party computation for data mining applicatins](http://link.springer.com/article/10.1007/s10207-012-0177-2?no-access=true)
+
+To understand the protocols please take a look at the following repository. 
+It has the same protocols but with better comments to understand.
+
+
