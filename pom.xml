@@ -32,6 +32,14 @@
     </dependency>
   </dependencies>
   <build>
+    <resources>
+        <resource>
+        <directory>src/test/resources</directory>
+        <excludes>
+          <exclude>**</exclude>
+        </excludes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
