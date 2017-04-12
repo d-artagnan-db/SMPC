@@ -48,7 +48,8 @@ public class SecureShiftLeftTest extends ProtocolTest {
 
 	}
 	@Override
-    public List<DbTest> prepareDatabases(Players players) throws InvalidNumberOfBits, InvalidSecretValue {
+	public List<DbTest> prepareDatabases(Players players)
+			throws InvalidNumberOfBits, InvalidSecretValue {
 		BigInteger u = this.value;
 		Dealer dealer = new SharemindDealer(this.nbits);
 		SharemindSharedSecret secret = (SharemindSharedSecret) dealer.share(u);
@@ -57,18 +58,18 @@ public class SecureShiftLeftTest extends ProtocolTest {
 		Player p1 = players.getPlayer(1);
 		Player p2 = players.getPlayer(2);
 
-		DbTest rdb0 = new Db((SharemindSecret)secret.getSecretU1(p0));
-		DbTest rdb1 = new Db((SharemindSecret)secret.getSecretU2(p1));
-		DbTest rdb2 = new Db((SharemindSecret)secret.getSecretU3(p2));
+		DbTest rdb0 = new Db((SharemindSecret) secret.getSecretU1(p0));
+		DbTest rdb1 = new Db((SharemindSecret) secret.getSecretU2(p1));
+		DbTest rdb2 = new Db((SharemindSecret) secret.getSecretU3(p2));
 
-		List<DbTest> result = new ArrayList<>();
+		List<DbTest> result = new ArrayList<DbTest>();
 
 		result.add(rdb0);
 		result.add(rdb1);
 		result.add(rdb2);
 
 		return result;
-    }
+	}
 	public BigInteger oracle() {
 		BigInteger shiftedLeft = this.value.shiftLeft(nshift);
 		StringBuilder sbt = new StringBuilder();

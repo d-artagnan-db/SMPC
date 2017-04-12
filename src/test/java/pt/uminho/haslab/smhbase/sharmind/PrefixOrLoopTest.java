@@ -36,30 +36,35 @@ public class PrefixOrLoopTest extends SingleValueProtocolTest {
 	}
 
 	@Override
-	public List<DbTest> prepareDatabases(Players players) throws InvalidNumberOfBits, InvalidSecretValue {
+	public List<DbTest> prepareDatabases(Players players)
+			throws InvalidNumberOfBits, InvalidSecretValue {
 		BigInteger u = this.value;
 		Dealer dealer = new SharemindBitVectorDealer(nbits);
-		SharemindBitVectorSharedSecret secret = (SharemindBitVectorSharedSecret) dealer.share(u);
+		SharemindBitVectorSharedSecret secret = (SharemindBitVectorSharedSecret) dealer
+				.share(u);
 
 		Player p0 = players.getPlayer(0);
 		Player p1 = players.getPlayer(1);
 		Player p2 = players.getPlayer(2);
-        
-        SharemindBitVectorSecret sbv1 = (SharemindBitVectorSecret) secret.getSecretU1(p0);
-        SharemindBitVectorSecret sbv2 = (SharemindBitVectorSecret)secret.getSecretU2(p1);
-        SharemindBitVectorSecret sbv3 = (SharemindBitVectorSecret)secret.getSecretU3(p2);
-        
-        /*DB is a class of SingleValueProtocolTest*/
-        DbTest rdb0 = new Db(sbv1);
+
+		SharemindBitVectorSecret sbv1 = (SharemindBitVectorSecret) secret
+				.getSecretU1(p0);
+		SharemindBitVectorSecret sbv2 = (SharemindBitVectorSecret) secret
+				.getSecretU2(p1);
+		SharemindBitVectorSecret sbv3 = (SharemindBitVectorSecret) secret
+				.getSecretU3(p2);
+
+		/* DB is a class of SingleValueProtocolTest */
+		DbTest rdb0 = new Db(sbv1);
 		DbTest rdb1 = new Db(sbv2);
 		DbTest rdb2 = new Db(sbv3);
 
-		List<DbTest> result = new ArrayList<>();
+		List<DbTest> result = new ArrayList<DbTest>();
 
 		result.add(rdb0);
 		result.add(rdb1);
 		result.add(rdb2);
-                        return result;
+		return result;
 	}
 	@Override
 	public void condition(DbTest db1, DbTest db2, DbTest db3) {
@@ -68,8 +73,8 @@ public class PrefixOrLoopTest extends SingleValueProtocolTest {
 		BigInteger u3 = ((SharemindBitVectorSecret) db3.getResult()).getValue();
 		SharedSecret secret = new SharemindBitVectorSharedSecret(nbits, u1, u2,
 				u3);
-		BigInteger result = secret.unshare();
 
+		BigInteger result = secret.unshare();
 		int half = nbits / 2;
 		/* bitHalfValue */
 		BigInteger bitHalfV = BigInteger.ZERO;

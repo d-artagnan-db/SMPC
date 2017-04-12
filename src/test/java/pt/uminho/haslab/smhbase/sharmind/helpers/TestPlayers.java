@@ -2,6 +2,7 @@ package pt.uminho.haslab.smhbase.sharmind.helpers;
 
 import pt.uminho.haslab.smhbase.interfaces.Players;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import pt.uminho.haslab.smhbase.interfaces.Player;
@@ -11,7 +12,7 @@ public class TestPlayers implements Players {
 	private final Map<Integer, Player> players;
 
 	public TestPlayers(int nplayers) {
-        this.players = new ConcurrentHashMap<>();
+		this.players = new ConcurrentHashMap<Integer, Player>();
 	}
 	@Override
 	public void addPlayer(Player p) {
@@ -34,6 +35,18 @@ public class TestPlayers implements Players {
 					value);
 			this.players.get(playerDest).notify();
 		}
+	}
+
+	public void sendValues(int playerDest, int playerSource, List<byte[]> values) {
+
+		synchronized (this.players.get(playerDest)) {
+
+			this.players.get(playerDest).storeValues(playerDest, playerSource,
+					values);
+			this.players.get(playerDest).notify();
+
+		}
+
 	}
 
 }

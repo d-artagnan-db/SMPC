@@ -2,8 +2,10 @@ package pt.uminho.haslab.smhbase.sharmind.helpers;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -15,7 +17,8 @@ public class ValuesGenerator {
 	// Tests will run for numbers that use 80 bits at most.
 	public static final int maxBits = 63;
 
-	public static final int nValues = 1000;
+	public static final int nValues = 1;
+	public static final int batchValues = 10000;
 
 	/* Number of bits must be greater than 0 */
 	private static int genNumberBits(int maxBits) {
@@ -43,6 +46,26 @@ public class ValuesGenerator {
 		return Arrays.asList(parameters);
 	}
 
+	public static Collection SingleBatchValueGenerator() {
+		Object[] parameters = new Object[nValues];
+
+		for (int i = 0; i < nValues; i++) {
+
+			int genNbits = genNumberBits(maxBits);
+			List<BigInteger> bvals = new ArrayList<BigInteger>();
+			for (int j = 0; j < batchValues; j++) {
+				BigInteger genValue = new BigInteger(genNbits, generator);
+				bvals.add(genValue);
+			}
+			Object[] parameter = new Object[2];
+			parameter[0] = genNbits;
+			parameter[1] = bvals;
+			parameters[i] = parameter;
+		}
+
+		return Arrays.asList(parameters);
+	}
+
 	public static Collection ShareConvGenerator() {
 		Object[] parameters = new Object[nValues];
 		for (int i = 0; i < nValues; i++) {
@@ -56,6 +79,35 @@ public class ValuesGenerator {
 			parameter[1] = genValueOne;
 			parameter[2] = genValueTwo;
 			parameter[3] = genValueThree;
+
+			parameters[i] = parameter;
+		}
+
+		return Arrays.asList(parameters);
+	}
+
+	public static Collection shareBatchConvGenerator() {
+		Object[] parameters = new Object[nValues];
+		for (int i = 0; i < nValues; i++) {
+			int genNbits = genNumberBits(maxBits);
+			List<BigInteger> genValuesOne = new ArrayList<BigInteger>();
+			List<BigInteger> genValuesTwo = new ArrayList<BigInteger>();
+			List<BigInteger> genValuesThree = new ArrayList<BigInteger>();
+
+			for (int j = 0; j < batchValues; j++) {
+				BigInteger genValueOne = new BigInteger(1, generator);
+				BigInteger genValueTwo = new BigInteger(1, generator);
+				BigInteger genValueThree = new BigInteger(1, generator);
+				genValuesOne.add(genValueOne);
+				genValuesTwo.add(genValueTwo);
+				genValuesThree.add(genValueThree);
+			}
+
+			Object[] parameter = new Object[4];
+			parameter[0] = genNbits;
+			parameter[1] = genValuesOne;
+			parameter[2] = genValuesTwo;
+			parameter[3] = genValuesThree;
 
 			parameters[i] = parameter;
 		}
@@ -82,6 +134,31 @@ public class ValuesGenerator {
 		return Arrays.asList(parameters);
 	}
 
+	public static Collection BinaryBatchValuesGenerator() {
+		Object[] parameters = new Object[nValues];
+
+		for (int i = 0; i < nValues; i++) {
+
+			List<BigInteger> firstValues = new ArrayList<BigInteger>();
+			List<BigInteger> secondValues = new ArrayList<BigInteger>();
+
+			for (int j = 0; j < batchValues; j++) {
+				BigInteger genValueOne = new BigInteger(1, generator);
+				BigInteger genValueTwo = new BigInteger(1, generator);
+				firstValues.add(genValueOne);
+				secondValues.add(genValueTwo);
+			}
+			Object[] parameter = new Object[3];
+			parameter[0] = 1;
+			parameter[1] = firstValues;
+			parameter[2] = secondValues;
+
+			parameters[i] = parameter;
+		}
+
+		return Arrays.asList(parameters);
+	}
+
 	public static Collection TwoValuesGenerator() {
 		Object[] parameters = new Object[nValues];
 
@@ -101,6 +178,33 @@ public class ValuesGenerator {
 
 		return Arrays.asList(parameters);
 	}
+	public static Collection TwoValuesBatchGenerator() {
+		Object[] parameters = new Object[nValues];
+
+		for (int i = 0; i < nValues; i++) {
+			int genNbits = genNumberBits(maxBits);
+
+			List<BigInteger> firstValues = new ArrayList<BigInteger>();
+			List<BigInteger> secondValues = new ArrayList<BigInteger>();
+
+			for (int j = 0; j < batchValues; j++) {
+				BigInteger genValueOne = new BigInteger(genNbits, generator);
+				BigInteger genValueTwo = new BigInteger(genNbits, generator);
+				firstValues.add(genValueOne);
+				secondValues.add(genValueTwo);
+			}
+
+			Object[] parameter = new Object[3];
+			parameter[0] = genNbits;
+			parameter[1] = firstValues;
+			parameter[2] = secondValues;
+
+			parameters[i] = parameter;
+		}
+
+		return Arrays.asList(parameters);
+	}
+
 	public static Collection TwoLongValuesGenerator() {
 		Object[] parameters = new Object[nValues];
 

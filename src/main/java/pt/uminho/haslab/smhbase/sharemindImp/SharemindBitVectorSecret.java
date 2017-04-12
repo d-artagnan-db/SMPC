@@ -121,11 +121,9 @@ public class SharemindBitVectorSecret implements BitVectorSecret {
 		BigInteger bitHalf = BigInteger.ZERO;
 		BigInteger bitMod = BigInteger.valueOf(2);
 		BigInteger original = this.value;
-
 		if (value.testBit(getHalf())) {
 			bitHalf = BigInteger.ONE;
 		}
-
 		SharemindSecret secretH;
 		try {
 			secretH = new SharemindSecret(1, bitMod, bitHalf, this.player);
@@ -147,7 +145,6 @@ public class SharemindBitVectorSecret implements BitVectorSecret {
 			} catch (InvalidSecretValue ex) {
 				throw new IllegalStateException(ex);
 			}
-
 			BigInteger multRes = secretI.mult(secretH).getValue();
 			BigInteger finalRes = bitI.xor(bitHalf).xor(multRes);
 

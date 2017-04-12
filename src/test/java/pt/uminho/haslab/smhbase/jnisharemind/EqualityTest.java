@@ -101,31 +101,37 @@ public class EqualityTest extends ProtocolTest {
 	}
 
 	@Override
-    public List<DbTest> prepareDatabases(Players players) throws InvalidNumberOfBits, InvalidSecretValue {
-        BigInteger u = this.firstValue;
-        BigInteger v = this.secondValue;
+	public List<DbTest> prepareDatabases(Players players)
+			throws InvalidNumberOfBits, InvalidSecretValue {
+		BigInteger u = this.firstValue;
+		BigInteger v = this.secondValue;
 
-        Dealer dealer = new SharemindDealer(this.nbits);
+		Dealer dealer = new SharemindDealer(this.nbits);
 
-        SharemindSharedSecret secretOne = (SharemindSharedSecret) dealer.share(u);
-        SharemindSharedSecret secretTwo = (SharemindSharedSecret) dealer.share(v);
+		SharemindSharedSecret secretOne = (SharemindSharedSecret) dealer
+				.share(u);
+		SharemindSharedSecret secretTwo = (SharemindSharedSecret) dealer
+				.share(v);
 
-        Player p0 = players.getPlayer(0);
-        Player p1 = players.getPlayer(1);
-        Player p2 = players.getPlayer(2);
+		Player p0 = players.getPlayer(0);
+		Player p1 = players.getPlayer(1);
+		Player p2 = players.getPlayer(2);
 
-        DbTest rdb0 = new Db ((SharemindSecret)secretOne.getSecretU1(p0), (SharemindSecret)secretTwo.getSecretU1(p0), p0);
-        DbTest rdb1 = new Db ((SharemindSecret)secretOne.getSecretU2(p1), (SharemindSecret)secretTwo.getSecretU2(p1), p1);
-        DbTest rdb2 = new Db ((SharemindSecret)secretOne.getSecretU3(p2), (SharemindSecret)secretTwo.getSecretU3(p2), p2);
+		DbTest rdb0 = new Db((SharemindSecret) secretOne.getSecretU1(p0),
+				(SharemindSecret) secretTwo.getSecretU1(p0), p0);
+		DbTest rdb1 = new Db((SharemindSecret) secretOne.getSecretU2(p1),
+				(SharemindSecret) secretTwo.getSecretU2(p1), p1);
+		DbTest rdb2 = new Db((SharemindSecret) secretOne.getSecretU3(p2),
+				(SharemindSecret) secretTwo.getSecretU3(p2), p2);
 
-        List<DbTest> result = new ArrayList<>();
+		List<DbTest> result = new ArrayList<DbTest>();
 
-        result.add(rdb0);
-        result.add(rdb1);
-        result.add(rdb2);
+		result.add(rdb0);
+		result.add(rdb1);
+		result.add(rdb2);
 
-        return result;
-  }
+		return result;
+	}
 	@Override
 	public void condition(DbTest db1, DbTest db2, DbTest db3) {
 		BigInteger u1 = ((SharemindSecret) db1.getResult()).getValue();

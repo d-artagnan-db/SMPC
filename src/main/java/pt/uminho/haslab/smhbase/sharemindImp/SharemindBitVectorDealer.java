@@ -20,6 +20,7 @@ public class SharemindBitVectorDealer extends AbstractSharemindDealer {
 		BigInteger u1 = new BigInteger(this.nbits, RandomGenerator.generator);
 		BigInteger u2 = new BigInteger(this.nbits, RandomGenerator.generator);
 		BigInteger u3 = value.xor(u1).xor(u2);
+
 		return new SharemindBitVectorSharedSecret(nbits, u1, u2, u3);
 	}
 

@@ -235,7 +235,7 @@ public class SharemindSecret implements Secret {
 	}
 
 	public Secret overflow() {
-      
+
 		BigInteger p = null;
 
 		switch (player.getPlayerID()) {
@@ -251,23 +251,26 @@ public class SharemindSecret implements Secret {
 		}
 
 		SharemindBitVectorSecret s;
-        try {
-          s = (SharemindBitVectorSecret) new SharemindBitVectorSecret(
-                  nbits, mod, p, player).msnzb();
-        } catch (InvalidSecretValue ex) {
-                  throw new IllegalStateException(ex);
-        }
+		try {
+			s = (SharemindBitVectorSecret) new SharemindBitVectorSecret(nbits,
+					mod, p, player).msnzb();
+		} catch (InvalidSecretValue ex) {
+			throw new IllegalStateException(ex);
+		}
 
 		BigInteger u;
 		if (player.getPlayerID() == 2) {
 			SharemindBitVectorDealer dealer;
-            SharemindBitVectorSharedSecret share;
+			SharemindBitVectorSharedSecret share;
 
 			try {
 				dealer = new SharemindBitVectorDealer(nbits);
-                share = (SharemindBitVectorSharedSecret) dealer.share(p);
-                
-			} catch (InvalidNumberOfBits | InvalidSecretValue ex) {
+				share = (SharemindBitVectorSharedSecret) dealer.share(p);
+
+			} catch (InvalidNumberOfBits ex) {
+				throw new IllegalStateException(ex);
+
+			} catch (InvalidSecretValue ex) {
 				throw new IllegalStateException(ex);
 			}
 			player.sendValueToPlayer(0, share.getU1());

@@ -46,29 +46,29 @@ public class OverflowProtocolTest extends ProtocolTest {
 	}
 
 	@Override
-    public List<DbTest> prepareDatabases(Players players) throws InvalidSecretValue {
+	public List<DbTest> prepareDatabases(Players players)
+			throws InvalidSecretValue {
 		Player p0 = players.getPlayer(0);
 		Player p1 = players.getPlayer(1);
 		Player p2 = players.getPlayer(2);
-        
-        BigInteger mod =  BigInteger.valueOf(2).pow(nbits);
-        SharemindSecret u1 = new SharemindSecret(nbits, mod, valueOne, p0);
-        SharemindSecret u2 = new SharemindSecret(nbits, mod, valueTwo, p1);
-        SharemindSecret u3 = new SharemindSecret(nbits, mod, valueThree, p2);
 
+		BigInteger mod = BigInteger.valueOf(2).pow(nbits);
+		SharemindSecret u1 = new SharemindSecret(nbits, mod, valueOne, p0);
+		SharemindSecret u2 = new SharemindSecret(nbits, mod, valueTwo, p1);
+		SharemindSecret u3 = new SharemindSecret(nbits, mod, valueThree, p2);
 
-        Db rdb0 = new Db( u1);
+		Db rdb0 = new Db(u1);
 		Db rdb1 = new Db(u2);
-        Db rdb2 = new Db(u3);
+		Db rdb2 = new Db(u3);
 
-		List<DbTest> result = new ArrayList<>();
+		List<DbTest> result = new ArrayList<DbTest>();
 
 		result.add(rdb0);
 		result.add(rdb1);
 		result.add(rdb2);
 
 		return result;
-    }
+	}
 	@Override
 	public void condition(DbTest db1, DbTest db2, DbTest db3) {
 		BigInteger u1 = ((SharemindSecret) db1.getResult()).getValue();

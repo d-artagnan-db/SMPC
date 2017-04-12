@@ -44,31 +44,35 @@ public abstract class BitConj extends ProtocolTest {
 	}
 
 	@Override
-  public List<DbTest> prepareDatabases(Players players) throws InvalidSecretValue {
+	public List<DbTest> prepareDatabases(Players players)
+			throws InvalidSecretValue {
 
-        Player pl0 = players.getPlayer(0);
-        Player pl1 = players.getPlayer(1);
-        Player pl2 = players.getPlayer(2);
-        
-        BigInteger modPower = BigInteger.valueOf(2).pow(this.nbits);
-       
-        SharemindBitVectorSecret sbvs1 = new SharemindBitVectorSecret(this.nbits, modPower, this.p0, pl0);
-        SharemindBitVectorSecret sbvs2 = new SharemindBitVectorSecret(this.nbits, modPower, this.p1, pl1);
-        SharemindBitVectorSecret sbvs3 = new SharemindBitVectorSecret(this.nbits, modPower, this.p2, pl2);
+		Player pl0 = players.getPlayer(0);
+		Player pl1 = players.getPlayer(1);
+		Player pl2 = players.getPlayer(2);
 
-        DbTest rdb0 = new BitConj.BitConjDbTest(sbvs1);
-        DbTest rdb1 = new BitConj.BitConjDbTest(sbvs2);
-        DbTest rdb2 = new BitConj.BitConjDbTest(sbvs3);
+		BigInteger modPower = BigInteger.valueOf(2).pow(this.nbits);
 
-        List<DbTest> result = new ArrayList<>();
+		SharemindBitVectorSecret sbvs1 = new SharemindBitVectorSecret(
+				this.nbits, modPower, this.p0, pl0);
+		SharemindBitVectorSecret sbvs2 = new SharemindBitVectorSecret(
+				this.nbits, modPower, this.p1, pl1);
+		SharemindBitVectorSecret sbvs3 = new SharemindBitVectorSecret(
+				this.nbits, modPower, this.p2, pl2);
 
-        result.add(rdb0);
-        result.add(rdb1);
-        result.add(rdb2);
+		DbTest rdb0 = new BitConj.BitConjDbTest(sbvs1);
+		DbTest rdb1 = new BitConj.BitConjDbTest(sbvs2);
+		DbTest rdb2 = new BitConj.BitConjDbTest(sbvs3);
 
-        return result;
+		List<DbTest> result = new ArrayList<DbTest>();
 
-  }
+		result.add(rdb0);
+		result.add(rdb1);
+		result.add(rdb2);
+
+		return result;
+
+	}
 	public abstract boolean expectedResult();
 
 	@Override
