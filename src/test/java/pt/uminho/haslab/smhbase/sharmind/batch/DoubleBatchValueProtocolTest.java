@@ -11,6 +11,7 @@ import pt.uminho.haslab.smhbase.interfaces.Dealer;
 import pt.uminho.haslab.smhbase.interfaces.Player;
 import pt.uminho.haslab.smhbase.interfaces.Players;
 import pt.uminho.haslab.smhbase.sharemindImp.SharemindDealer;
+import pt.uminho.haslab.smhbase.sharemindImp.SharemindSecretFunctions;
 import pt.uminho.haslab.smhbase.sharemindImp.SharemindSharedSecret;
 import pt.uminho.haslab.smhbase.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smhbase.sharmind.helpers.ValuesGenerator;
@@ -25,6 +26,7 @@ public abstract class DoubleBatchValueProtocolTest extends BatchProtocolTest {
 		super(nbits);
 		this.firstValues = firstValues;
 		this.secondValues = secondValues;
+        //SharemindSecretFunctions.initRandomElemes(10, nbits);
 	}
 
 	@Parameterized.Parameters

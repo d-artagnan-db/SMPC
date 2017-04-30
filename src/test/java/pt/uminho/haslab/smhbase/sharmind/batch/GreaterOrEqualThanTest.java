@@ -55,5 +55,4 @@ public class GreaterOrEqualThanTest extends DoubleBatchValueProtocolTest {
 
 		}
 	}
-
 }

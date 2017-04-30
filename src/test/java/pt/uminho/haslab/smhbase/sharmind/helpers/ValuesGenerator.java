@@ -18,7 +18,7 @@ public class ValuesGenerator {
 	public static final int maxBits = 63;
 
 	public static final int nValues = 1;
-	public static final int batchValues = 10000;
+	public static final int batchValues = 100;
 
 	/* Number of bits must be greater than 0 */
 	private static int genNumberBits(int maxBits) {
