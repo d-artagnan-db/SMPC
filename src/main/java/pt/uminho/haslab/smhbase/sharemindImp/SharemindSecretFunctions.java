@@ -12,42 +12,42 @@ public class SharemindSecretFunctions {
 
 	private final int nbits;
 	private final BigInteger mod;
-    
-    private static List<BigInteger> randomElems;
-    
-    private static int randomPos;
-    private static boolean preRandomVals;
-    
-    public static void initRandomElemes(int nbits, int size){
-        randomElems = new ArrayList<BigInteger>();
-        
-        for(int i = 0; i < size; i++){
-            BigInteger randomValue = new BigInteger(nbits, RandomGenerator.generator);
-            randomElems.add(randomValue);
-        }
-        randomPos = 0;
-        preRandomVals = true;
-    
-    }
 
-    
-    public BigInteger getRandom(int nbits){
-        
-        if(preRandomVals){
-            //System.out.println(randomPos);
-            //System.out.println(randomElems.size());
-            //if(randomPos ==  randomElems.size()){
-            //    randomPos = 0;
-            //}
-            BigInteger rand = randomElems.get(randomPos);
-            randomPos = (randomPos +1) % randomElems.size();
-            return rand;
-        }else{
-            BigInteger randomValue = new BigInteger(this.nbits,
+	private static List<BigInteger> randomElems;
+
+	private static int randomPos;
+	private static boolean preRandomVals;
+
+	public static void initRandomElemes(int nbits, int size) {
+		randomElems = new ArrayList<BigInteger>();
+
+		for (int i = 0; i < size; i++) {
+			BigInteger randomValue = new BigInteger(nbits,
 					RandomGenerator.generator);
-            return randomValue;
-        }
-    }
+			randomElems.add(randomValue);
+		}
+		randomPos = 0;
+		preRandomVals = true;
+
+	}
+
+	public BigInteger getRandom(int nbits) {
+
+		if (preRandomVals) {
+			// System.out.println(randomPos);
+			// System.out.println(randomElems.size());
+			// if(randomPos == randomElems.size()){
+			// randomPos = 0;
+			// }
+			BigInteger rand = randomElems.get(randomPos);
+			randomPos = (randomPos + 1) % randomElems.size();
+			return rand;
+		} else {
+			BigInteger randomValue = new BigInteger(this.nbits,
+					RandomGenerator.generator);
+			return randomValue;
+		}
+	}
 	public SharemindSecretFunctions(int nbits) {
 		this.nbits = nbits + 1;
 		mod = BigInteger.valueOf(2).pow(this.nbits);
@@ -142,7 +142,7 @@ public class SharemindSecretFunctions {
 				BigInteger value = new BigInteger(s1.get(i));
 				BigInteger received = new BigInteger(s2.get(i));
 
-				BigInteger r1 =  getRandom(nbits);
+				BigInteger r1 = getRandom(nbits);
 
 				BigInteger r2 = value.subtract(received).subtract(r1).mod(mod);
 				r1s.add(r1.toByteArray());

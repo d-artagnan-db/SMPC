@@ -26,7 +26,7 @@ public abstract class DoubleBatchValueProtocolTest extends BatchProtocolTest {
 		super(nbits);
 		this.firstValues = firstValues;
 		this.secondValues = secondValues;
-        //SharemindSecretFunctions.initRandomElemes(10, nbits);
+		// SharemindSecretFunctions.initRandomElemes(10, nbits);
 	}
 
 	@Parameterized.Parameters
