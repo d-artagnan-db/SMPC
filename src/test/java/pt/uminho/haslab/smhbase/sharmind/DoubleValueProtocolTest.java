@@ -1,9 +1,5 @@
 package pt.uminho.haslab.smhbase.sharmind;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smhbase.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smhbase.exceptions.InvalidSecretValue;
@@ -17,72 +13,77 @@ import pt.uminho.haslab.smhbase.sharemindImp.SharemindSharedSecret;
 import pt.uminho.haslab.smhbase.sharmind.helpers.DbTest;
 import pt.uminho.haslab.smhbase.sharmind.helpers.ValuesGenerator;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public abstract class DoubleValueProtocolTest extends ProtocolTest {
 
-	protected BigInteger firstValue;
-	protected BigInteger secondValue;
+    protected BigInteger firstValue;
+    protected BigInteger secondValue;
 
-	public DoubleValueProtocolTest(int nbits, BigInteger value1,
-			BigInteger value2) {
-		super(nbits);
-		this.firstValue = value1;
-		this.secondValue = value2;
-	}
+    public DoubleValueProtocolTest(int nbits, BigInteger value1,
+                                   BigInteger value2) {
+        super(nbits);
+        this.firstValue = value1;
+        this.secondValue = value2;
+    }
 
-	@Parameterized.Parameters
-	public static Collection nbitsValues() {
-		return ValuesGenerator.TwoValuesGenerator();
-	}
+    @Parameterized.Parameters
+    public static Collection nbitsValues() {
+        return ValuesGenerator.TwoValuesGenerator();
+    }
 
-	protected class Db extends DbTest {
+    public abstract Secret runProtocol(Secret firstSecret, Secret secondSecret);
 
-		private final Secret secondSecret;
+    @Override
+    public List<DbTest> prepareDatabases(Players players)
+            throws InvalidNumberOfBits, InvalidSecretValue {
+        BigInteger u = this.firstValue;
+        BigInteger v = this.secondValue;
 
-		public Db(Secret secret, Secret second) {
-			super(secret);
-			this.secondSecret = second;
+        Dealer dealer = new SharemindDealer(this.nbits);
 
-		}
+        SharemindSharedSecret secretOne = (SharemindSharedSecret) dealer
+                .share(u);
+        SharemindSharedSecret secretTwo = (SharemindSharedSecret) dealer
+                .share(v);
 
-		@Override
-		public void run() {
-			super.protocolResult = runProtocol(this.secret, this.secondSecret);
-		}
+        Player p0 = players.getPlayer(0);
+        Player p1 = players.getPlayer(1);
+        Player p2 = players.getPlayer(2);
 
-	}
+        DbTest rdb0 = new Db((SharemindSecret) secretOne.getSecretU1(p0),
+                (SharemindSecret) secretTwo.getSecretU1(p0));
+        DbTest rdb1 = new Db((SharemindSecret) secretOne.getSecretU2(p1),
+                (SharemindSecret) secretTwo.getSecretU2(p1));
+        DbTest rdb2 = new Db((SharemindSecret) secretOne.getSecretU3(p2),
+                (SharemindSecret) secretTwo.getSecretU3(p2));
 
-	public abstract Secret runProtocol(Secret firstSecret, Secret secondSecret);
+        List<DbTest> result = new ArrayList<DbTest>();
 
-	@Override
-	public List<DbTest> prepareDatabases(Players players)
-			throws InvalidNumberOfBits, InvalidSecretValue {
-		BigInteger u = this.firstValue;
-		BigInteger v = this.secondValue;
+        result.add(rdb0);
+        result.add(rdb1);
+        result.add(rdb2);
 
-		Dealer dealer = new SharemindDealer(this.nbits);
+        return result;
+    }
 
-		SharemindSharedSecret secretOne = (SharemindSharedSecret) dealer
-				.share(u);
-		SharemindSharedSecret secretTwo = (SharemindSharedSecret) dealer
-				.share(v);
+    protected class Db extends DbTest {
 
-		Player p0 = players.getPlayer(0);
-		Player p1 = players.getPlayer(1);
-		Player p2 = players.getPlayer(2);
+        private final Secret secondSecret;
 
-		DbTest rdb0 = new Db((SharemindSecret) secretOne.getSecretU1(p0),
-				(SharemindSecret) secretTwo.getSecretU1(p0));
-		DbTest rdb1 = new Db((SharemindSecret) secretOne.getSecretU2(p1),
-				(SharemindSecret) secretTwo.getSecretU2(p1));
-		DbTest rdb2 = new Db((SharemindSecret) secretOne.getSecretU3(p2),
-				(SharemindSecret) secretTwo.getSecretU3(p2));
+        public Db(Secret secret, Secret second) {
+            super(secret);
+            this.secondSecret = second;
 
-		List<DbTest> result = new ArrayList<DbTest>();
+        }
 
-		result.add(rdb0);
-		result.add(rdb1);
-		result.add(rdb2);
+        @Override
+        public void run() {
+            super.protocolResult = runProtocol(this.secret, this.secondSecret);
+        }
 
-		return result;
-	}
+    }
 }

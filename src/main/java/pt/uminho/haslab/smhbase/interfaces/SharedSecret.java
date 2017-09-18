@@ -4,5 +4,5 @@ import java.math.BigInteger;
 
 public interface SharedSecret {
 
-	public BigInteger unshare();
+    public BigInteger unshare();
 }

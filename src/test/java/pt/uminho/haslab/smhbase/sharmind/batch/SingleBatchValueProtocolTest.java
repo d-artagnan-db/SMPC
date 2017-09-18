@@ -1,9 +1,5 @@
 package pt.uminho.haslab.smhbase.sharmind.batch;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smhbase.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smhbase.exceptions.InvalidSecretValue;
@@ -15,66 +11,73 @@ import pt.uminho.haslab.smhbase.sharemindImp.SharemindSharedSecret;
 import pt.uminho.haslab.smhbase.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smhbase.sharmind.helpers.ValuesGenerator;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public abstract class SingleBatchValueProtocolTest extends BatchProtocolTest {
 
-	protected final List<BigInteger> values;
+    protected final List<BigInteger> values;
 
-	public SingleBatchValueProtocolTest(int nbits, List<BigInteger> values) {
-		super(nbits);
-		this.values = values;
-	}
+    public SingleBatchValueProtocolTest(int nbits, List<BigInteger> values) {
+        super(nbits);
+        this.values = values;
+    }
 
-	@Parameterized.Parameters
-	public static Collection nbitsValues() {
-		return ValuesGenerator.SingleBatchValueGenerator();
-	}
-	protected class Db extends BatchDbTest {
+    @Parameterized.Parameters
+    public static Collection nbitsValues() {
+        return ValuesGenerator.SingleBatchValueGenerator();
+    }
 
-		private final Player player;
+    public abstract List<byte[]> runProtocol(List<byte[]> shares, Player player);
 
-		public Db(List<byte[]> shares, Player player) {
-			super(shares);
-			this.player = player;
-		}
+    @Override
+    public List<BatchDbTest> prepareDatabases(Players players)
+            throws InvalidNumberOfBits, InvalidSecretValue {
+        Dealer dealer = new SharemindDealer(this.nbits);
+        Player p0 = players.getPlayer(0);
+        Player p1 = players.getPlayer(1);
+        Player p2 = players.getPlayer(2);
 
-		@Override
-		public void run() {
-			super.protocolResults = runProtocol(super.secrets, player);
-		}
+        List<byte[]> sharesp0 = new ArrayList<byte[]>();
+        List<byte[]> sharesp1 = new ArrayList<byte[]>();
+        List<byte[]> sharesp2 = new ArrayList<byte[]>();
 
-	}
-	public abstract List<byte[]> runProtocol(List<byte[]> shares, Player player);
+        for (BigInteger value : values) {
+            SharemindSharedSecret secret = (SharemindSharedSecret) dealer
+                    .share(value);
+            sharesp0.add(secret.getU1().toByteArray());
+            sharesp1.add(secret.getU2().toByteArray());
+            sharesp2.add(secret.getU3().toByteArray());
+        }
 
-	@Override
-	public List<BatchDbTest> prepareDatabases(Players players)
-			throws InvalidNumberOfBits, InvalidSecretValue {
-		Dealer dealer = new SharemindDealer(this.nbits);
-		Player p0 = players.getPlayer(0);
-		Player p1 = players.getPlayer(1);
-		Player p2 = players.getPlayer(2);
+        BatchDbTest rdb0 = new Db(sharesp0, p0);
+        BatchDbTest rdb1 = new Db(sharesp1, p1);
+        BatchDbTest rdb2 = new Db(sharesp2, p2);
 
-		List<byte[]> sharesp0 = new ArrayList<byte[]>();
-		List<byte[]> sharesp1 = new ArrayList<byte[]>();
-		List<byte[]> sharesp2 = new ArrayList<byte[]>();
+        List<BatchDbTest> result = new ArrayList<BatchDbTest>();
 
-		for (BigInteger value : values) {
-			SharemindSharedSecret secret = (SharemindSharedSecret) dealer
-					.share(value);
-			sharesp0.add(secret.getU1().toByteArray());
-			sharesp1.add(secret.getU2().toByteArray());
-			sharesp2.add(secret.getU3().toByteArray());
-		}
+        result.add(rdb0);
+        result.add(rdb1);
+        result.add(rdb2);
 
-		BatchDbTest rdb0 = new Db(sharesp0, p0);
-		BatchDbTest rdb1 = new Db(sharesp1, p1);
-		BatchDbTest rdb2 = new Db(sharesp2, p2);
+        return result;
+    }
 
-		List<BatchDbTest> result = new ArrayList<BatchDbTest>();
+    protected class Db extends BatchDbTest {
 
-		result.add(rdb0);
-		result.add(rdb1);
-		result.add(rdb2);
+        private final Player player;
 
-		return result;
-	}
+        public Db(List<byte[]> shares, Player player) {
+            super(shares);
+            this.player = player;
+        }
+
+        @Override
+        public void run() {
+            super.protocolResults = runProtocol(super.secrets, player);
+        }
+
+    }
 }

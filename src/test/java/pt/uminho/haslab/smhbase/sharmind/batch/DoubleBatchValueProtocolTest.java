@@ -1,9 +1,5 @@
 package pt.uminho.haslab.smhbase.sharmind.batch;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smhbase.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smhbase.exceptions.InvalidSecretValue;
@@ -11,100 +7,105 @@ import pt.uminho.haslab.smhbase.interfaces.Dealer;
 import pt.uminho.haslab.smhbase.interfaces.Player;
 import pt.uminho.haslab.smhbase.interfaces.Players;
 import pt.uminho.haslab.smhbase.sharemindImp.SharemindDealer;
-import pt.uminho.haslab.smhbase.sharemindImp.SharemindSecretFunctions;
 import pt.uminho.haslab.smhbase.sharemindImp.SharemindSharedSecret;
 import pt.uminho.haslab.smhbase.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smhbase.sharmind.helpers.ValuesGenerator;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public abstract class DoubleBatchValueProtocolTest extends BatchProtocolTest {
 
-	protected List<BigInteger> firstValues;
-	protected List<BigInteger> secondValues;
+    protected List<BigInteger> firstValues;
+    protected List<BigInteger> secondValues;
 
-	public DoubleBatchValueProtocolTest(int nbits,
-			List<BigInteger> firstValues, List<BigInteger> secondValues) {
-		super(nbits);
-		this.firstValues = firstValues;
-		this.secondValues = secondValues;
-		// SharemindSecretFunctions.initRandomElemes(10, nbits);
-	}
+    public DoubleBatchValueProtocolTest(int nbits,
+                                        List<BigInteger> firstValues, List<BigInteger> secondValues) {
+        super(nbits);
+        this.firstValues = firstValues;
+        this.secondValues = secondValues;
+        // SharemindSecretFunctions.initRandomElemes(10, nbits);
+    }
 
-	@Parameterized.Parameters
-	public static Collection nbitsValues() {
-		return ValuesGenerator.TwoValuesBatchGenerator();
-	}
+    @Parameterized.Parameters
+    public static Collection nbitsValues() {
+        return ValuesGenerator.TwoValuesBatchGenerator();
+    }
 
-	protected class Db extends BatchDbTest {
+    public abstract List<byte[]> runProtocol(List<byte[]> firstShares,
+                                             List<byte[]> secondShares, Player player);
 
-		private final List<byte[]> secondShares;
-		private final Player player;
+    @Override
+    public List<BatchDbTest> prepareDatabases(Players players)
+            throws InvalidNumberOfBits, InvalidSecretValue {
+        Dealer dealer = new SharemindDealer(this.nbits);
 
-		public Db(List<byte[]> firstShares, List<byte[]> secondShares,
-				Player player) {
-			super(firstShares);
-			this.secondShares = secondShares;
-			this.player = player;
+        Player p0 = players.getPlayer(0);
+        Player p1 = players.getPlayer(1);
+        Player p2 = players.getPlayer(2);
 
-		}
+        List<byte[]> v1Sharesp0 = new ArrayList<byte[]>();
+        List<byte[]> v1Sharesp1 = new ArrayList<byte[]>();
+        List<byte[]> v1Sharesp2 = new ArrayList<byte[]>();
 
-		@Override
-		public void run() {
+        List<byte[]> v2Sharesp0 = new ArrayList<byte[]>();
+        List<byte[]> v2Sharesp1 = new ArrayList<byte[]>();
+        List<byte[]> v2Sharesp2 = new ArrayList<byte[]>();
 
-			super.protocolResults = runProtocol(this.secrets,
-					this.secondShares, player);
-		}
+        List<BatchDbTest> results = new ArrayList<BatchDbTest>();
 
-	}
-	public abstract List<byte[]> runProtocol(List<byte[]> firstShares,
-			List<byte[]> secondShares, Player player);
+        for (int i = 0; i < firstValues.size(); i++) {
+            BigInteger u = this.firstValues.get(i);
+            BigInteger v = this.secondValues.get(i);
 
-	@Override
-	public List<BatchDbTest> prepareDatabases(Players players)
-			throws InvalidNumberOfBits, InvalidSecretValue {
-		Dealer dealer = new SharemindDealer(this.nbits);
+            SharemindSharedSecret secretOne = (SharemindSharedSecret) dealer
+                    .share(u);
+            SharemindSharedSecret secretTwo = (SharemindSharedSecret) dealer
+                    .share(v);
 
-		Player p0 = players.getPlayer(0);
-		Player p1 = players.getPlayer(1);
-		Player p2 = players.getPlayer(2);
+            v1Sharesp0.add(secretOne.getU1().toByteArray());
+            v1Sharesp1.add(secretOne.getU2().toByteArray());
+            v1Sharesp2.add(secretOne.getU3().toByteArray());
 
-		List<byte[]> v1Sharesp0 = new ArrayList<byte[]>();
-		List<byte[]> v1Sharesp1 = new ArrayList<byte[]>();
-		List<byte[]> v1Sharesp2 = new ArrayList<byte[]>();
+            v2Sharesp0.add(secretTwo.getU1().toByteArray());
+            v2Sharesp1.add(secretTwo.getU2().toByteArray());
+            v2Sharesp2.add(secretTwo.getU3().toByteArray());
+        }
 
-		List<byte[]> v2Sharesp0 = new ArrayList<byte[]>();
-		List<byte[]> v2Sharesp1 = new ArrayList<byte[]>();
-		List<byte[]> v2Sharesp2 = new ArrayList<byte[]>();
+        BatchDbTest rdb0 = new Db(v1Sharesp0, v2Sharesp0, p0);
+        BatchDbTest rdb1 = new Db(v1Sharesp1, v2Sharesp1, p1);
+        BatchDbTest rdb2 = new Db(v1Sharesp2, v2Sharesp2, p2);
 
-		List<BatchDbTest> results = new ArrayList<BatchDbTest>();
+        results.add(rdb0);
+        results.add(rdb1);
+        results.add(rdb2);
 
-		for (int i = 0; i < firstValues.size(); i++) {
-			BigInteger u = this.firstValues.get(i);
-			BigInteger v = this.secondValues.get(i);
+        return results;
 
-			SharemindSharedSecret secretOne = (SharemindSharedSecret) dealer
-					.share(u);
-			SharemindSharedSecret secretTwo = (SharemindSharedSecret) dealer
-					.share(v);
+    }
 
-			v1Sharesp0.add(secretOne.getU1().toByteArray());
-			v1Sharesp1.add(secretOne.getU2().toByteArray());
-			v1Sharesp2.add(secretOne.getU3().toByteArray());
+    protected class Db extends BatchDbTest {
 
-			v2Sharesp0.add(secretTwo.getU1().toByteArray());
-			v2Sharesp1.add(secretTwo.getU2().toByteArray());
-			v2Sharesp2.add(secretTwo.getU3().toByteArray());
-		}
+        private final List<byte[]> secondShares;
+        private final Player player;
 
-		BatchDbTest rdb0 = new Db(v1Sharesp0, v2Sharesp0, p0);
-		BatchDbTest rdb1 = new Db(v1Sharesp1, v2Sharesp1, p1);
-		BatchDbTest rdb2 = new Db(v1Sharesp2, v2Sharesp2, p2);
+        public Db(List<byte[]> firstShares, List<byte[]> secondShares,
+                  Player player) {
+            super(firstShares);
+            this.secondShares = secondShares;
+            this.player = player;
 
-		results.add(rdb0);
-		results.add(rdb1);
-		results.add(rdb2);
+        }
 
-		return results;
+        @Override
+        public void run() {
 
-	}
+            super.protocolResults = runProtocol(this.secrets,
+                    this.secondShares, player);
+        }
+
+    }
 
 }
