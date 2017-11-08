@@ -6,5 +6,5 @@ import java.math.BigInteger;
 
 public interface Dealer {
 
-	public SharedSecret share(BigInteger value) throws InvalidSecretValue;
+    public SharedSecret share(BigInteger value) throws InvalidSecretValue;
 }

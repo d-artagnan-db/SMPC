@@ -22,125 +22,125 @@ import java.util.List;
 
 public class EqualityTest extends ProtocolTest {
 
-	static final Log LOG = LogFactory.getLog(EqualityTest.class.getName());
+    static final Log LOG = LogFactory.getLog(EqualityTest.class.getName());
 
-	protected BigInteger firstValue;
-	protected BigInteger secondValue;
+    protected BigInteger firstValue;
+    protected BigInteger secondValue;
 
-	public EqualityTest(int nbits, BigInteger value1, BigInteger value2) {
-		super(nbits);
-		BasicConfigurator.configure();
+    public EqualityTest(int nbits, BigInteger value1, BigInteger value2) {
+        super(nbits);
+        BasicConfigurator.configure();
 
-		this.firstValue = value1;
-		this.secondValue = value2;
-	}
+        this.firstValue = value1;
+        this.secondValue = value2;
+    }
 
-	@Parameterized.Parameters
-	public static Collection nbitsValues() {
-		return ValuesGenerator.TwoLongValuesGenerator();
-	}
+    @Parameterized.Parameters
+    public static Collection nbitsValues() {
+        return ValuesGenerator.TwoLongValuesGenerator();
+    }
 
-	public BigInteger runProtocol(byte[] valueOne, byte[] valueTwo, Player p) {
+    public BigInteger runProtocol(byte[] valueOne, byte[] valueTwo, Player p) {
 
-		return new BigInteger(valueOne);
-	}
+        return new BigInteger(valueOne);
+    }
 
-	@Override
-	public List<DbTest> prepareDatabases(Players players)
-			throws InvalidNumberOfBits, InvalidSecretValue {
-		BigInteger u = this.firstValue;
-		BigInteger v = this.secondValue;
+    @Override
+    public List<DbTest> prepareDatabases(Players players)
+            throws InvalidNumberOfBits, InvalidSecretValue {
+        BigInteger u = this.firstValue;
+        BigInteger v = this.secondValue;
 
-		Dealer dealer = new SharemindDealer(this.nbits);
+        Dealer dealer = new SharemindDealer(this.nbits);
 
-		SharemindSharedSecret secretOne = (SharemindSharedSecret) dealer
-				.share(u);
-		SharemindSharedSecret secretTwo = (SharemindSharedSecret) dealer
-				.share(v);
+        SharemindSharedSecret secretOne = (SharemindSharedSecret) dealer
+                .share(u);
+        SharemindSharedSecret secretTwo = (SharemindSharedSecret) dealer
+                .share(v);
 
-		Player p0 = players.getPlayer(0);
-		Player p1 = players.getPlayer(1);
-		Player p2 = players.getPlayer(2);
+        Player p0 = players.getPlayer(0);
+        Player p1 = players.getPlayer(1);
+        Player p2 = players.getPlayer(2);
 
-		DbTest rdb0 = new Db((SharemindSecret) secretOne.getSecretU1(p0),
-				(SharemindSecret) secretTwo.getSecretU1(p0), p0);
-		DbTest rdb1 = new Db((SharemindSecret) secretOne.getSecretU2(p1),
-				(SharemindSecret) secretTwo.getSecretU2(p1), p1);
-		DbTest rdb2 = new Db((SharemindSecret) secretOne.getSecretU3(p2),
-				(SharemindSecret) secretTwo.getSecretU3(p2), p2);
+        DbTest rdb0 = new Db((SharemindSecret) secretOne.getSecretU1(p0),
+                (SharemindSecret) secretTwo.getSecretU1(p0), p0);
+        DbTest rdb1 = new Db((SharemindSecret) secretOne.getSecretU2(p1),
+                (SharemindSecret) secretTwo.getSecretU2(p1), p1);
+        DbTest rdb2 = new Db((SharemindSecret) secretOne.getSecretU3(p2),
+                (SharemindSecret) secretTwo.getSecretU3(p2), p2);
 
-		List<DbTest> result = new ArrayList<DbTest>();
+        List<DbTest> result = new ArrayList<DbTest>();
 
-		result.add(rdb0);
-		result.add(rdb1);
-		result.add(rdb2);
+        result.add(rdb0);
+        result.add(rdb1);
+        result.add(rdb2);
 
-		return result;
-	}
+        return result;
+    }
 
-	@Override
-	public void condition(DbTest db1, DbTest db2, DbTest db3) {
-		BigInteger u1 = ((SharemindSecret) db1.getResult()).getValue();
-		BigInteger u2 = ((SharemindSecret) db2.getResult()).getValue();
-		BigInteger u3 = ((SharemindSecret) db3.getResult()).getValue();
+    @Override
+    public void condition(DbTest db1, DbTest db2, DbTest db3) {
+        BigInteger u1 = ((SharemindSecret) db1.getResult()).getValue();
+        BigInteger u2 = ((SharemindSecret) db2.getResult()).getValue();
+        BigInteger u3 = ((SharemindSecret) db3.getResult()).getValue();
 
-		SharedSecret secret = new SharemindSharedSecret(1, u1, u2, u3);
-		boolean comparisonResult = this.firstValue.equals(this.secondValue);
+        SharedSecret secret = new SharemindSharedSecret(1, u1, u2, u3);
+        boolean comparisonResult = this.firstValue.equals(this.secondValue);
 
-		int expectedResult = comparisonResult ? 1 : 0;
-		// assertEquals(secret.unshare().intValue(), expectedResult);
-	}
+        int expectedResult = comparisonResult ? 1 : 0;
+        // assertEquals(secret.unshare().intValue(), expectedResult);
+    }
 
-	protected class Db extends DbTest {
+    protected class Db extends DbTest {
 
-		private final Secret secondSecret;
-		private final Player player;
+        private final Secret secondSecret;
+        private final Player player;
 
-		public Db(Secret secret, Secret second, Player p) {
-			super(secret);
-			secondSecret = second;
-			player = p;
-		}
+        public Db(Secret secret, Secret second, Player p) {
+            super(secret);
+            secondSecret = second;
+            player = p;
+        }
 
-		public byte[] longToBytes(long x) {
-			ByteBuffer buffer = ByteBuffer.allocate(Long.SIZE);
-			buffer.putLong(x);
-			return buffer.array();
-		}
+        public byte[] longToBytes(long x) {
+            ByteBuffer buffer = ByteBuffer.allocate(Long.SIZE);
+            buffer.putLong(x);
+            return buffer.array();
+        }
 
-		public long bytesToLong(byte[] bytes) {
-			ByteBuffer buffer = ByteBuffer.allocate(Long.SIZE);
-			buffer.put(bytes);
-			buffer.flip();// need flip
-			return buffer.getLong();
-		}
+        public long bytesToLong(byte[] bytes) {
+            ByteBuffer buffer = ByteBuffer.allocate(Long.SIZE);
+            buffer.put(bytes);
+            buffer.flip();// need flip
+            return buffer.getLong();
+        }
 
-		@Override
-		public void run() {
-			try {
-				// please try with these two combinations
+        @Override
+        public void run() {
+            try {
+                // please try with these two combinations
 
-				byte[] fstValue = ((SharemindSecret) secret).getValue()
-						.toByteArray();
-				byte[] sndValue = ((SharemindSecret) secondSecret).getValue()
-						.toByteArray();
-				SharemindSecret originalSecret = ((SharemindSecret) secret);
+                byte[] fstValue = ((SharemindSecret) secret).getValue()
+                        .toByteArray();
+                byte[] sndValue = ((SharemindSecret) secondSecret).getValue()
+                        .toByteArray();
+                SharemindSecret originalSecret = ((SharemindSecret) secret);
 
-				// byte[] fstValue = longToBytes(((SharemindSecret)
-				// secret).getValue().longValue());
-				// byte[] sndValue = longToBytes(((SharemindSecret)
-				// secondSecret).getValue().longValue());
+                // byte[] fstValue = longToBytes(((SharemindSecret)
+                // secret).getValue().longValue());
+                // byte[] sndValue = longToBytes(((SharemindSecret)
+                // secondSecret).getValue().longValue());
 
-				BigInteger result = runProtocol(fstValue, sndValue, player);
-				// LOG.debug("The result " + result);
-				this.protocolResult = new SharemindSecret(
-						originalSecret.getNbits(), originalSecret.getMod(),
-						result, null);
-			} catch (InvalidSecretValue ex) {
-				LOG.debug(ex);
-			}
-		}
+                BigInteger result = runProtocol(fstValue, sndValue, player);
+                // LOG.debug("The result " + result);
+                this.protocolResult = new SharemindSecret(
+                        originalSecret.getNbits(), originalSecret.getMod(),
+                        result, null);
+            } catch (InvalidSecretValue ex) {
+                LOG.debug(ex);
+            }
+        }
 
-	}
+    }
 
 }
