@@ -28,7 +28,6 @@ public class TestPlayer implements Player {
 
 	}
 
-	@Override
 	public synchronized BigInteger getValue(Integer playerID) {
 
 		while (this.values.get(playerID).isEmpty()) {
@@ -45,30 +44,25 @@ public class TestPlayer implements Player {
 
 	}
 
-	@Override
 	public int getPlayerID() {
 		return this.playerID;
 	}
 
-	@Override
 	public void sendValueToPlayer(int playerDest, BigInteger value) {
 		// In the tests no id is required
 		players.sendValue(playerDest, this.playerID, value);
 	}
 
-	@Override
 	public void storeValue(Integer playerDest, Integer playerSource,
 			BigInteger value) {
 		this.values.get(playerSource).add(value);
 	}
 
-	@Override
 	public void sendValueToPlayer(Integer playerID, List<byte[]> values) {
 		players.sendValues(playerID, this.playerID, values);
 		// this.batchValues.get(playerID).add(values);
 	}
 
-	@Override
 	public synchronized List<byte[]> getValues(Integer playerID) {
 		// System.out.println(playerID);
 		// System.out.println(this.batchValues.get(playerID));
