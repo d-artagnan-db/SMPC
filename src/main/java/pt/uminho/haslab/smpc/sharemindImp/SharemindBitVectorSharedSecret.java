@@ -21,7 +21,6 @@ public class SharemindBitVectorSharedSecret
         return new SharemindBitVectorSecret(nbits, this.power, value, player);
     }
 
-    @Override
     public BigInteger unshare() {
         return u1.xor(u2).xor(u3);
     }

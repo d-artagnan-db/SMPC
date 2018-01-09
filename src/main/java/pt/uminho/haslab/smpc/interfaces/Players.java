@@ -12,5 +12,6 @@ public interface Players {
     public void addPlayer(Player player);
 
     public void sendValues(int player, int playerSource, List<byte[]> values);
+    public void sendValues(int player, int playerSource, int[]  values);
 
 }

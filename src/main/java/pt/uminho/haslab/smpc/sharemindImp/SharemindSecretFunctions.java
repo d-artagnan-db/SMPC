@@ -11,9 +11,6 @@ import java.util.List;
 
 public class SharemindSecretFunctions {
 
-    private static List<BigInteger> randomElems;
-    private static int randomPos;
-    private static boolean preRandomVals;
     private final int nbits;
     private final BigInteger mod;
 
@@ -27,35 +24,17 @@ public class SharemindSecretFunctions {
         this.mod = mod;
     }
 
-    public static void initRandomElemes(int nbits, int size) {
-        randomElems = new ArrayList<BigInteger>();
 
-        for (int i = 0; i < size; i++) {
-            BigInteger randomValue = new BigInteger(nbits,
-                    RandomGenerator.generator);
-            randomElems.add(randomValue);
+    public BigInteger getRandom() {
+
+        if(RandomGenerator.activeCache && this.nbits == RandomGenerator.cacheNBits){
+            return RandomGenerator.getRandom();
+        }else if(RandomGenerator.activeCache && this.nbits == 1){
+            return RandomGenerator.geRandomSingleBit();
+        }else{
+            return new BigInteger(this.nbits, RandomGenerator.generator);
         }
-        randomPos = 0;
-        preRandomVals = true;
 
-    }
-
-    public BigInteger getRandom(int nbits) {
-
-        if (preRandomVals) {
-            // System.out.println(randomPos);
-            // System.out.println(randomElems.size());
-            // if(randomPos == randomElems.size()){
-            // randomPos = 0;
-            // }
-            BigInteger rand = randomElems.get(randomPos);
-            randomPos = (randomPos + 1) % randomElems.size();
-            return rand;
-        } else {
-            BigInteger randomValue = new BigInteger(this.nbits,
-                    RandomGenerator.generator);
-            return randomValue;
-        }
     }
 
     private int getDestPlayer(Player player) {
@@ -64,8 +43,7 @@ public class SharemindSecretFunctions {
     }
 
     private int getRecPlayer(Player player) {
-        return BigInteger.valueOf(player.getPlayerID())
-                .subtract(BigInteger.ONE).mod(BigInteger.valueOf(3)).intValue();
+        return (((player.getPlayerID() - 1 ) % 3 ) + 3)%3;
     }
 
     public List<byte[]> reshare(List<byte[]> shares, Player player) {
@@ -74,7 +52,7 @@ public class SharemindSecretFunctions {
 
         for (byte[] s : shares) {
 
-            randomValues.add(getRandom(nbits).toByteArray());
+            randomValues.add(getRandom().toByteArray());
         }
 
         // Calculates the target player based on this player id.
@@ -142,7 +120,7 @@ public class SharemindSecretFunctions {
                 BigInteger value = new BigInteger(s1.get(i));
                 BigInteger received = new BigInteger(s2.get(i));
 
-                BigInteger r1 = getRandom(nbits);
+                BigInteger r1 = getRandom();
 
                 BigInteger r2 = value.subtract(received).subtract(r1).mod(mod);
                 r1s.add(r1.toByteArray());
@@ -239,7 +217,7 @@ public class SharemindSecretFunctions {
 
             for (byte[] val : shares) {
                 BigInteger value = new BigInteger(val);
-                BigInteger r1 = getRandom(nbits);
+                BigInteger r1 = getRandom();
                 BigInteger r2 = value.subtract(r1).mod(mod);
                 r1s.add(r1.toByteArray());
                 r2s.add(r2.toByteArray());
@@ -279,7 +257,7 @@ public class SharemindSecretFunctions {
                 BigInteger value = new BigInteger(share);
                 BigInteger b = new BigInteger(1, RandomGenerator.generator);
                 BigInteger m = b.xor(value);
-                BigInteger m12 = getRandom(nbits);
+                BigInteger m12 = getRandom();
                 BigInteger m13 = m.subtract(m12).mod(mod);
                 BigInteger b12 = new BigInteger(1, RandomGenerator.generator);
                 BigInteger b13 = b.xor(b12);

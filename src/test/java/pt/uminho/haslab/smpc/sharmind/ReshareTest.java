@@ -30,5 +30,9 @@ public class ReshareTest extends SingleValueProtocolTest {
         SharedSecret secret = new SharemindSharedSecret(nbits + 1, u1, u2, u3);
         assertEquals(secret.unshare(), this.value);
     }
+    
+    public static void main(String args[]){
+        
+    }
 
 }

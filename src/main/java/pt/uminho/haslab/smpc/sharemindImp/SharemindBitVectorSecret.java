@@ -40,7 +40,6 @@ public class SharemindBitVectorSecret implements BitVectorSecret {
         return this.nbits;
     }
 
-    @Override
     public Secret bitConj() {
         BigInteger bitMod = BigInteger.valueOf(2);
 
@@ -84,7 +83,6 @@ public class SharemindBitVectorSecret implements BitVectorSecret {
         return this.value;
     }
 
-    @Override
     public Secret equal(Secret v) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -98,7 +96,6 @@ public class SharemindBitVectorSecret implements BitVectorSecret {
      * one machine. And they need to communicate to run the secure 'or'
      * operation between the bits
      */
-    @Override
     public BitVectorSecret prefixOr() {
         if (this.nbits == 1) {
             return this;
@@ -285,7 +282,6 @@ public class SharemindBitVectorSecret implements BitVectorSecret {
         return this.nbits / 2;
     }
 
-    @Override
     public Secret greaterOrEqualThan(Secret v) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

@@ -1,5 +1,7 @@
 package pt.uminho.haslab.smpc.sharmind.helpers;
 
+import pt.uminho.haslab.smpc.helpers.RandomGenerator;
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -7,14 +9,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * @author roger
- */
+
 public class ValuesGenerator {
     // Tests will run for numbers that use 80 bits at most.
-    public static final int maxBits = 63;
+    public static final int maxBits = 31;
     public static final int nValues = 1;
-    public static final int batchValues = 100;
+    public static final int batchValues = 500000;
     private final static SecureRandom generator = new SecureRandom();
 
     /* Number of bits must be greater than 0 */
@@ -26,6 +26,21 @@ public class ValuesGenerator {
         return nBits;
 
     }
+
+    public static Collection SingleIntValueGenerator(int nValues){
+        Object[] parameters = new Object[nValues];
+
+        for (int i = 0; i < nValues; i++) {
+            int value = generator.nextInt();
+
+            Object[] parameter = new Object[1];
+            parameter[0] = value;
+            parameters[i] = parameter;
+        }
+
+        return Arrays.asList(parameters);
+    }
+
 
     public static Collection SingleValueGenerator() {
         Object[] parameters = new Object[nValues];
@@ -58,6 +73,23 @@ public class ValuesGenerator {
             Object[] parameter = new Object[2];
             parameter[0] = genNbits;
             parameter[1] = bvals;
+            parameters[i] = parameter;
+        }
+
+        return Arrays.asList(parameters);
+    }
+
+    public static Collection SingleIntBatchValueGenerator(int nLocalValues, int nLocalBatchValues) {
+        Object[] parameters = new Object[nLocalValues];
+
+        for (int i = 0; i < nLocalValues; i++) {
+            int[] bvals = new int[nLocalBatchValues];
+            for (int j = 0; j < nLocalBatchValues; j++) {
+                int value = RandomGenerator.nextInt();
+                bvals[j] = value;
+            }
+            Object[] parameter = new Object[1];
+            parameter[0] = bvals;
             parameters[i] = parameter;
         }
 
@@ -157,6 +189,52 @@ public class ValuesGenerator {
         return Arrays.asList(parameters);
     }
 
+
+    public static Collection IntBinaryBatchValuesGenerator(int localNValues, int localBatchValues) {
+        Object[] parameters = new Object[localNValues];
+
+        for (int i = 0; i < localNValues; i++) {
+            int[] firstValues = new int[localBatchValues];
+            int[] secondValues = new int[localBatchValues];
+
+            for (int j = 0; j < localBatchValues; j++) {
+                firstValues[j] = RandomGenerator.nextInt() % 2;
+                secondValues[j] = RandomGenerator.nextInt() % 2;
+            }
+
+            Object[] parameter = new Object[2];
+            parameter[0] = firstValues;
+            parameter[1] = secondValues;
+
+            parameters[i] = parameter;
+        }
+
+        return Arrays.asList(parameters);
+    }
+
+
+    public static Collection IntBatchValuesGenerator(int localNValues, int localBatchValues) {
+        Object[] parameters = new Object[localNValues];
+
+        for (int i = 0; i < localNValues; i++) {
+            int[] firstValues = new int[localBatchValues];
+            int[] secondValues = new int[localBatchValues];
+
+            for (int j = 0; j < localBatchValues; j++) {
+                firstValues[j] =  RandomGenerator.nextInt();
+                secondValues[j] = RandomGenerator.nextInt();
+            }
+
+            Object[] parameter = new Object[2];
+            parameter[0] = firstValues;
+            parameter[1] = secondValues;
+
+            parameters[i] = parameter;
+        }
+
+        return Arrays.asList(parameters);
+    }
+
     public static Collection TwoValuesGenerator() {
         Object[] parameters = new Object[nValues];
 
@@ -181,7 +259,7 @@ public class ValuesGenerator {
         Object[] parameters = new Object[nValues];
 
         for (int i = 0; i < nValues; i++) {
-            int genNbits = genNumberBits(maxBits);
+            int genNbits = maxBits; //genNumberBits(maxBits);
 
             List<BigInteger> firstValues = new ArrayList<BigInteger>();
             List<BigInteger> secondValues = new ArrayList<BigInteger>();

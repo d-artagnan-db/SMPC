@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smpc.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
+import pt.uminho.haslab.smpc.helpers.RandomGenerator;
 import pt.uminho.haslab.smpc.interfaces.Players;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.TestPlayer;
@@ -57,6 +58,7 @@ public abstract class BatchProtocolTest {
         BatchDbTest rdb1 = workers.get(1);
         BatchDbTest rdb2 = workers.get(2);
 
+        Long startTime = System.nanoTime();
         rdb0.start();
         rdb1.start();
         rdb2.start();
@@ -64,7 +66,8 @@ public abstract class BatchProtocolTest {
         rdb0.join();
         rdb1.join();
         rdb2.join();
-
+        Long stopTime = System.nanoTime();
+        System.out.println("Execution time was " + (stopTime - startTime));
         condition(rdb0, rdb1, rdb2);
 
     }

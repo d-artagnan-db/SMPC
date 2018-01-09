@@ -3,6 +3,7 @@ package pt.uminho.haslab.smpc.sharmind.batch;
 import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smpc.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
+import pt.uminho.haslab.smpc.helpers.RandomGenerator;
 import pt.uminho.haslab.smpc.interfaces.Dealer;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.interfaces.Players;
@@ -26,11 +27,12 @@ public abstract class DoubleBatchValueProtocolTest extends BatchProtocolTest {
         super(nbits);
         this.firstValues = firstValues;
         this.secondValues = secondValues;
-        // SharemindSecretFunctions.initRandomElemes(10, nbits);
     }
 
     @Parameterized.Parameters
     public static Collection nbitsValues() {
+
+        RandomGenerator.initBatch(32, 10000);
         return ValuesGenerator.TwoValuesBatchGenerator();
     }
 
