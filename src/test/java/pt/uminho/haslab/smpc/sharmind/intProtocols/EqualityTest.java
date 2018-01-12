@@ -8,6 +8,7 @@ import pt.uminho.haslab.smpc.sharemindImp.IntSharemindSecretFunctions;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
@@ -23,7 +24,7 @@ public class EqualityTest extends DoubleBatchProtocolTest {
     @Parameterized.Parameters
     public static Collection nbitsValues() {
         RandomGenerator.initIntBatch(10000);
-        return ValuesGenerator.IntBatchValuesGenerator(1,500000);
+        return ValuesGenerator.IntBatchValuesGenerator(1,500);
     }
 
 

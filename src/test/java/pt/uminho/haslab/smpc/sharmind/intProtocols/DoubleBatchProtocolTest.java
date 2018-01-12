@@ -20,6 +20,7 @@ public abstract class DoubleBatchProtocolTest extends BatchProtocolTest {
         super(nbits);
         this.firstValues = firstValues;
         this.secondValues = secondValues;
+        secondValues[1] = firstValues[1];
     }
 
     public abstract int[] runProtocol(int[] firstShares,
