@@ -15,16 +15,23 @@ public interface Player {
 
     public void storeValues(Integer playerDest, Integer playerSource, int[] values);
 
+    public void storeValues(Integer playerDest, Integer playerSource, long[] values);
+
+
     public BigInteger getValue(Integer originPlayerId);
 
     public int getPlayerID();
 
     public void sendValueToPlayer(Integer playerID, List<byte[]> values);
+    public void sendValueToPlayer(Integer playerID, int[] secrets);
+    public void sendValueToPlayer(Integer playerID, long[] secrets);
 
     public List<byte[]> getValues(Integer rec);
+    public int[] getIntValues(Integer rec);
+    public long[] getLongValues(Integer rec);
 
-    public void sendValueToPlayer(Integer playerID, int[] secrets);
 
-    public  int[] getIntValues(Integer rec);
+
+
 
 }

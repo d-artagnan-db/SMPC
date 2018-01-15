@@ -1,4 +1,4 @@
-package pt.uminho.haslab.smpc.sharemindImp;
+package pt.uminho.haslab.smpc.sharemindImp.BigInteger;
 
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
 import pt.uminho.haslab.smpc.helpers.RangeChecker;
@@ -97,6 +97,7 @@ public class SharemindBitVectorSecret implements BitVectorSecret {
      * operation between the bits
      */
     public BitVectorSecret prefixOr() {
+
         if (this.nbits == 1) {
             return this;
         } else {
@@ -108,6 +109,7 @@ public class SharemindBitVectorSecret implements BitVectorSecret {
                     .subVector(half, nbits).prefixOr();
 
             SharemindBitVectorSecret p = firstHalf.joinWith(sendHalf);
+
 
             return p.prefixOrLoop();
         }

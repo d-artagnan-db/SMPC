@@ -6,9 +6,9 @@ import pt.uminho.haslab.smpc.interfaces.Dealer;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.interfaces.Players;
 import pt.uminho.haslab.smpc.interfaces.SharedSecret;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindBitVectorDealer;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindBitVectorSharedSecret;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindSecretFunctions;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindBitVectorDealer;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindBitVectorSharedSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindSecretFunctions;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 
 import java.math.BigInteger;
@@ -39,6 +39,10 @@ public class PrefixOrTest extends SingleBatchValueProtocolTest {
             Dealer dealer = new SharemindBitVectorDealer(nbits);
             SharemindBitVectorSharedSecret secret = (SharemindBitVectorSharedSecret) dealer
                     .share(u);
+            System.out.println("FirstShare "+ secret.getU1() + " <-> " + Integer.toBinaryString(secret.getU1().intValue()));
+            System.out.println("SecondShare "+ secret.getU2() + " <-> " + Integer.toBinaryString(secret.getU2().intValue()));
+            System.out.println("ThirdShare "+ secret.getU3() + " <-> " + Integer.toBinaryString(secret.getU3().intValue()));
+
             BigInteger sbv1 = secret.getU1();
             BigInteger sbv2 = secret.getU2();
             BigInteger sbv3 = secret.getU3();
@@ -62,7 +66,7 @@ public class PrefixOrTest extends SingleBatchValueProtocolTest {
 
     private BigInteger oracle(BigInteger value) {
         /*
-		 * This function goes throught the bits from the end to the start and
+		 * This function goes through the bits from the end to the start and
 		 * identifies the most significant bit. After that it generates a bit
 		 * string with ones that has the same size as the original value.
 		 */
@@ -92,6 +96,9 @@ public class PrefixOrTest extends SingleBatchValueProtocolTest {
     public List<byte[]> runProtocol(List<byte[]> shares, Player player) {
         BigInteger bitMod = BigInteger.valueOf(2).pow(nbits);
 
+        if(player.getPlayerID() == 2){
+            System.out.println("Input Secret is " + Integer.toBinaryString(new BigInteger(shares.get(0)).intValue()));
+        }
         SharemindSecretFunctions ssf = new SharemindSecretFunctions(nbits,
                 bitMod);
         return ssf.prefixOr(shares, player);
@@ -112,6 +119,7 @@ public class PrefixOrTest extends SingleBatchValueProtocolTest {
             SharedSecret secret = new SharemindBitVectorSharedSecret(nbits, u1,
                     u2, u3);
             BigInteger result = secret.unshare();
+            System.out.println("result " + oracle(value) + " <-> " + result );
             assertEquals(oracle(value), result);
         }
     }

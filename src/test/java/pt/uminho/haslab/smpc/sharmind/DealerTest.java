@@ -7,8 +7,8 @@ import pt.uminho.haslab.smpc.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
 import pt.uminho.haslab.smpc.interfaces.Dealer;
 import pt.uminho.haslab.smpc.interfaces.SharedSecret;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindBitVectorDealer;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindDealer;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindBitVectorDealer;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindDealer;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
 
 import java.math.BigInteger;

@@ -3,14 +3,16 @@ package pt.uminho.haslab.smpc.sharmind.intProtocols;
 import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smpc.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
+import pt.uminho.haslab.smpc.helpers.RandomGenerator;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.interfaces.Players;
-import pt.uminho.haslab.smpc.sharemindImp.IntSharemindDealer;
+import pt.uminho.haslab.smpc.sharemindImp.Integer.IntSharemindDealer;
 import pt.uminho.haslab.smpc.sharmind.batch.BatchProtocolTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,12 +23,17 @@ public abstract class SingleBatchValueProtocolTest extends BatchProtocolTest {
 
     public SingleBatchValueProtocolTest(int[] values){
         super(31); //The number of bits should not be used in these tests
+        //this.values = new int[1];
+        //this.values[0] = 604973553;
         this.values = values;
+        System.out.println("Input value is " + Arrays.toString(this.values));
     }
 
     @Parameterized.Parameters
     public static Collection nbitsValues() {
-        return ValuesGenerator.SingleIntBatchValueGenerator(1,1000);
+        RandomGenerator.initIntBatch(100);
+
+        return ValuesGenerator.SingleIntBatchValueGenerator(100,100);
     }
 
 

@@ -10,8 +10,10 @@ public class TestPlayer implements Player {
 
     private final int playerID;
     private final Players players;
-    //private final Map<Integer, Queue<Integer[]>> intValues;
+
     private final List<Queue<Integer[]>> intValues;
+    private final List<Queue<Long[]>> longValues;
+
     private final Map<Integer, Queue<BigInteger>> values;
     private final Map<Integer, Queue<List<byte[]>>> batchValues;
 
@@ -28,14 +30,15 @@ public class TestPlayer implements Player {
         this.batchValues.put(1, new LinkedList<List<byte[]>>());
         this.batchValues.put(2, new LinkedList<List<byte[]>>());
 
-        //this.intValues = new HashMap<Integer,Queue<Integer[]>>();
-        //this.intValues.put(0, new LinkedList<Integer[]>());
-        //this.intValues.put(1, new LinkedList<Integer[]>());
-        //this.intValues.put(2, new LinkedList<Integer[]>());
         intValues = new ArrayList<Queue<Integer[]>>();
         intValues.add(new LinkedList<Integer[]>());
         intValues.add(new LinkedList<Integer[]>());
         intValues.add(new LinkedList<Integer[]>());
+
+        longValues = new ArrayList<Queue<Long[]>>();
+        longValues.add(new LinkedList<Long[]>());
+        longValues.add(new LinkedList<Long[]>());
+        longValues.add(new LinkedList<Long[]>());
 
     }
 
@@ -71,12 +74,9 @@ public class TestPlayer implements Player {
 
     public void sendValueToPlayer(Integer playerID, List<byte[]> values) {
         players.sendValues(playerID, this.playerID, values);
-        // this.batchValues.get(playerID).add(values);
     }
 
     public synchronized List<byte[]> getValues(Integer playerID) {
-        // System.out.println(playerID);
-        // System.out.println(this.batchValues.get(playerID));
         while (this.batchValues.get(playerID).isEmpty()) {
             try {
                 wait();
@@ -89,6 +89,11 @@ public class TestPlayer implements Player {
     }
 
     public void sendValueToPlayer(Integer playerID, int[] secrets) {
+        players.sendValues(playerID, this.playerID, secrets);
+
+    }
+
+    public void sendValueToPlayer(Integer playerID, long[] secrets) {
         players.sendValues(playerID, this.playerID, secrets);
 
     }
@@ -110,6 +115,24 @@ public class TestPlayer implements Player {
         return resValues;
     }
 
+    public synchronized  long[] getLongValues(Integer playerID) {
+        while (this.longValues.get(playerID).isEmpty()) {
+            try {
+                wait();
+            } catch (InterruptedException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+        Long[] theValues = longValues.get(playerID).poll();
+        long[] resValues = new long[theValues.length];
+
+        for(int i = 0; i < theValues.length; i++){
+            resValues[i] = theValues[i];
+        }
+        return resValues;
+
+    }
+
     public void storeValues(Integer playerDest, Integer playerSource,
                             List<byte[]> values) {
         this.batchValues.get(playerSource).add(values);
@@ -121,6 +144,14 @@ public class TestPlayer implements Player {
             vals[i] = values[i];
         }
         this.intValues.get(playerSource).add(vals);
+    }
+
+    public void storeValues(Integer playerDest, Integer playerSource, long[] values) {
+        Long[] vals = new Long[values.length];
+        for(int i = 0; i < values.length; i++){
+            vals[i] = values[i];
+        }
+        this.longValues.get(playerSource).add(vals);
     }
 
 }

@@ -3,8 +3,8 @@ package pt.uminho.haslab.smpc.sharmind;
 import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smpc.interfaces.Secret;
 import pt.uminho.haslab.smpc.interfaces.SharedSecret;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindSecret;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindSharedSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindSharedSecret;
 import pt.uminho.haslab.smpc.sharmind.helpers.DbTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
 

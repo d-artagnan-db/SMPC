@@ -2,8 +2,8 @@ package pt.uminho.haslab.smpc.sharmind.intProtocols;
 
 import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smpc.interfaces.Player;
-import pt.uminho.haslab.smpc.sharemindImp.IntSharemindDealer;
-import pt.uminho.haslab.smpc.sharemindImp.IntSharemindSecretFunctions;
+import pt.uminho.haslab.smpc.sharemindImp.Integer.IntSharemindDealer;
+import pt.uminho.haslab.smpc.sharemindImp.Integer.IntSharemindSecretFunctions;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
 

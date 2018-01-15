@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindBitVectorSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindBitVectorSecret;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
 
 import java.math.BigInteger;

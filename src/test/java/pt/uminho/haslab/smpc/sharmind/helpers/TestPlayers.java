@@ -55,7 +55,13 @@ public class TestPlayers implements Players {
 
     public void sendValues(int player, int playerSource, int[] values) {
         synchronized (this.players[player]){
+            this.players[player].storeValues(player, playerSource, values);
+            this.players[player].notify();
+        }
+    }
 
+    public void sendValues(Integer player, int playerSource, long[] values) {
+        synchronized (this.players[player]){
             this.players[player].storeValues(player, playerSource, values);
             this.players[player].notify();
         }

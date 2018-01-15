@@ -1,6 +1,8 @@
 package pt.uminho.haslab.smpc.sharmind.intProtocols;
 
+
 import org.junit.runners.Parameterized;
+import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
 import pt.uminho.haslab.smpc.helpers.RandomGenerator;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.sharemindImp.Integer.IntSharemindDealer;
@@ -12,28 +14,27 @@ import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 
-public class EqualityTest extends DoubleBatchProtocolTest {
+public class GreaterOrEqualThanTest extends DoubleBatchProtocolTest {
 
-    public EqualityTest(int[] firstValues, int[] secondValues)
-    {
+    @Parameterized.Parameters
+    public static Collection nbitsValues() {
+        RandomGenerator.initIntBatch(100);
+        return ValuesGenerator.IntBatchValuesGenerator(100,100);
+    }
+    public GreaterOrEqualThanTest(int[] firstValues, int[] secondValues) {
         super(31, firstValues, secondValues);
     }
 
-    /* Overrides default */
-    @Parameterized.Parameters
-    public static Collection nbitsValues() {
-        RandomGenerator.initIntBatch(10000);
-        return ValuesGenerator.IntBatchValuesGenerator(100, 100);
-    }
-
-
     public int[] runProtocol(int[] firstShares, int[] secondShares, Player player) {
-        IntSharemindSecretFunctions issf = new IntSharemindSecretFunctions();
-        return issf.equal(firstShares, secondShares, player);
+        try {
+            IntSharemindSecretFunctions ssf = new IntSharemindSecretFunctions();
+            return ssf.greaterOrEqualThan(firstShares, secondShares, player);
+        } catch (InvalidSecretValue ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
     public void condition(BatchDbTest db1, BatchDbTest db2, BatchDbTest db3) {
-
         int[] db1Results = ((Db) db1).getProtocolResults();
         int[] db2Results = ((Db) db2).getProtocolResults();
         int[] db3Results = ((Db) db3).getProtocolResults();
@@ -49,14 +50,14 @@ public class EqualityTest extends DoubleBatchProtocolTest {
             shares[1] = db2Results[i];
             shares[2] = db3Results[i];
 
-            int result = dealer.unshareBit(shares);
-            boolean comparisonResult = firstValues[i] == secondValues[i];
-            int expectedResult = comparisonResult ? 1 : 0;
+            int result = dealer.unshare(shares);
+
+
+            boolean comparisonResult = firstValues[i] >= secondValues[i];
+            int expectedResult = comparisonResult ? 0 : 1;
             assertEquals(expectedResult, result);
 
         }
-    }
-    
-    public static void main(String[] args){
+
     }
 }

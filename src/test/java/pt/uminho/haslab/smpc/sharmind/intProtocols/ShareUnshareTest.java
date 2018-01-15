@@ -4,13 +4,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
-import pt.uminho.haslab.smpc.sharemindImp.IntSharemindDealer;
+import pt.uminho.haslab.smpc.sharemindImp.Integer.IntSharemindDealer;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
 
 import java.util.Collection;
 
 import static junit.framework.TestCase.assertEquals;
-import static pt.uminho.haslab.smpc.sharemindImp.IntSharemindDealer.mod;
+import static pt.uminho.haslab.smpc.sharemindImp.Integer.IntSharemindDealer.mod;
 
 
 @RunWith(Parameterized.class)

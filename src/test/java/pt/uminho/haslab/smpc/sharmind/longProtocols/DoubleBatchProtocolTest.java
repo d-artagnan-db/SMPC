@@ -1,10 +1,10 @@
-package pt.uminho.haslab.smpc.sharmind.intProtocols;
+package pt.uminho.haslab.smpc.sharmind.longProtocols;
 
 import pt.uminho.haslab.smpc.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.interfaces.Players;
-import pt.uminho.haslab.smpc.sharemindImp.Integer.IntSharemindDealer;
+import pt.uminho.haslab.smpc.sharemindImp.Long.LongSharemindDealer;
 import pt.uminho.haslab.smpc.sharmind.batch.BatchProtocolTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 
@@ -13,38 +13,38 @@ import java.util.List;
 
 public abstract class DoubleBatchProtocolTest extends BatchProtocolTest {
 
-    protected final int[] firstValues;
-    protected final int[] secondValues;
+    protected final long[] firstValues;
+    protected final long[] secondValues;
 
-    public DoubleBatchProtocolTest(int nbits, int[] firstValues, int[] secondValues) {
+    public DoubleBatchProtocolTest(int nbits, long[] firstValues, long[] secondValues) {
         super(nbits);
         this.firstValues = firstValues;
         this.secondValues = secondValues;
     }
 
-    public abstract int[] runProtocol(int[] firstShares,
-                                             int[] secondShares, Player player);
+    public abstract long[] runProtocol(long[] firstShares,
+                                      long[] secondShares, Player player);
 
 
     public List<BatchDbTest> prepareDatabases(Players players) throws InvalidNumberOfBits, InvalidSecretValue {
-        IntSharemindDealer dealer = new IntSharemindDealer();
+        LongSharemindDealer dealer = new LongSharemindDealer();
 
         Player p0 = players.getPlayer(0);
         Player p1 = players.getPlayer(1);
         Player p2 = players.getPlayer(2);
 
-        int[] v1Shares0 = new int[firstValues.length];
-        int[] v1Shares1 = new int[firstValues.length];
-        int[] v1Shares2 = new int[firstValues.length];
+        long[] v1Shares0 = new long[firstValues.length];
+        long[] v1Shares1 = new long[firstValues.length];
+        long[] v1Shares2 = new long[firstValues.length];
 
-        int[] v2Shares0 = new int[firstValues.length];
-        int[] v2Shares1 = new int[firstValues.length];
-        int[] v2Shares2 = new int[firstValues.length];
+        long[] v2Shares0 = new long[firstValues.length];
+        long[] v2Shares1 = new long[firstValues.length];
+        long[] v2Shares2 = new long[firstValues.length];
 
 
         for (int i = 0; i < firstValues.length; i++) {
-            int[] firstSecrets = null;
-            int[] secondSecrets = null;
+            long[] firstSecrets = null;
+            long[] secondSecrets = null;
 
             if(super.nbits == 1){
                 firstSecrets = dealer.shareBit(firstValues[i]);
@@ -78,13 +78,13 @@ public abstract class DoubleBatchProtocolTest extends BatchProtocolTest {
 
     protected class Db extends BatchDbTest {
 
-        private final int[] firstShares;
-        private final int[] secondShares;
-        private int[] protocolResults;
+        private final long[] firstShares;
+        private final long[] secondShares;
+        private long[] protocolResults;
         private final Player player;
 
 
-        public Db(int[] firstShares, int[] secondShares,
+        public Db(long[] firstShares, long[] secondShares,
                   Player player) {
             super();
             this.firstShares = firstShares;
@@ -93,7 +93,7 @@ public abstract class DoubleBatchProtocolTest extends BatchProtocolTest {
 
         }
 
-        public int[] getProtocolResults(){
+        public long[] getProtocolResults(){
             return this.protocolResults;
         }
 
@@ -105,6 +105,4 @@ public abstract class DoubleBatchProtocolTest extends BatchProtocolTest {
         }
 
     }
-
-
 }

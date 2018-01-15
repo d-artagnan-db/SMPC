@@ -3,11 +3,12 @@ package pt.uminho.haslab.smpc.sharmind.batch;
 import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smpc.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
+import pt.uminho.haslab.smpc.helpers.RandomGenerator;
 import pt.uminho.haslab.smpc.interfaces.Dealer;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.interfaces.Players;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindDealer;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindSharedSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindDealer;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindSharedSecret;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
 
@@ -22,11 +23,20 @@ public abstract class SingleBatchValueProtocolTest extends BatchProtocolTest {
 
     public SingleBatchValueProtocolTest(int nbits, List<BigInteger> values) {
         super(nbits);
-        this.values = values;
+        //this.values = values;
+        this.values = new ArrayList<BigInteger>();
+
+        this.values.add(0, BigInteger.valueOf(604973553));
+        this.nbits = 31;
+
+        //System.out.println("Input secret is "+ this.values.get(0) + " <-> " + Integer.toBinaryString(this.values.get(0).intValue()));
+
+
     }
 
     @Parameterized.Parameters
     public static Collection nbitsValues() {
+        RandomGenerator.initBatch(6, 100);
         return ValuesGenerator.SingleBatchValueGenerator();
     }
 
@@ -47,6 +57,7 @@ public abstract class SingleBatchValueProtocolTest extends BatchProtocolTest {
         for (BigInteger value : values) {
             SharemindSharedSecret secret = (SharemindSharedSecret) dealer
                     .share(value);
+
             sharesp0.add(secret.getU1().toByteArray());
             sharesp1.add(secret.getU2().toByteArray());
             sharesp2.add(secret.getU3().toByteArray());

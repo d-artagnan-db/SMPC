@@ -15,7 +15,7 @@ import java.util.List;
 
 @RunWith(Parameterized.class)
 public abstract class BatchProtocolTest {
-    protected final int nbits;
+    protected int nbits;
 
     public BatchProtocolTest(int nbits) {
         this.nbits = nbits;

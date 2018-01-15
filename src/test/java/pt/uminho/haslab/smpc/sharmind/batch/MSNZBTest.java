@@ -6,9 +6,9 @@ import pt.uminho.haslab.smpc.interfaces.Dealer;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.interfaces.Players;
 import pt.uminho.haslab.smpc.interfaces.SharedSecret;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindBitVectorDealer;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindBitVectorSharedSecret;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindSecretFunctions;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindBitVectorDealer;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindBitVectorSharedSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindSecretFunctions;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 
 import java.math.BigInteger;
@@ -109,10 +109,17 @@ public class MSNZBTest extends SingleBatchValueProtocolTest {
             BigInteger u2 = new BigInteger(u2s.get(i));
             BigInteger u3 = new BigInteger(u3s.get(i));
             BigInteger value = values.get(i);
+            System.out.println("Val 0 " + Integer.toBinaryString(u1.intValue()));
+            System.out.println("Val 1 " + Integer.toBinaryString(u2.intValue()));
+            System.out.println("Val 2 " + Integer.toBinaryString(u3.intValue()));
 
             SharedSecret secret = new SharemindBitVectorSharedSecret(nbits, u1,
                     u2, u3);
             BigInteger result = secret.unshare();
+            System.out.println("Input value is " + value);
+            int expected = oracle(value).intValue();
+            System.out.println("Expected result is " + expected + " <-> "+ Integer.toBinaryString(expected));
+            System.out.println("Result is  " + result + " <-> " + Integer.toBinaryString(result.intValue()));
             assertEquals(oracle(value), result);
         }
     }

@@ -13,5 +13,5 @@ public interface Players {
 
     public void sendValues(int player, int playerSource, List<byte[]> values);
     public void sendValues(int player, int playerSource, int[]  values);
-
+    void sendValues(Integer playerID, int playerSource, long[] secrets);
 }

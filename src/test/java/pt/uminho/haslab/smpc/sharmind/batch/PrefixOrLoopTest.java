@@ -7,9 +7,9 @@ import pt.uminho.haslab.smpc.interfaces.Dealer;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.interfaces.Players;
 import pt.uminho.haslab.smpc.interfaces.SharedSecret;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindBitVectorDealer;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindBitVectorSharedSecret;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindSecretFunctions;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindBitVectorDealer;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindBitVectorSharedSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindSecretFunctions;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
 

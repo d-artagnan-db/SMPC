@@ -1,4 +1,4 @@
-package pt.uminho.haslab.smpc.sharemindImp;
+package pt.uminho.haslab.smpc.sharemindImp.BigInteger;
 
 import pt.uminho.haslab.smpc.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
@@ -26,8 +26,7 @@ public class SharemindSecretFunctions {
 
 
     public BigInteger getRandom() {
-
-        if(RandomGenerator.activeCache && this.nbits == RandomGenerator.cacheNBits){
+        if (RandomGenerator.activeCache && this.nbits == RandomGenerator.cacheNBits) {
             return RandomGenerator.getRandom();
         }else if(RandomGenerator.activeCache && this.nbits == 1){
             return RandomGenerator.geRandomSingleBit();
@@ -225,6 +224,7 @@ public class SharemindSecretFunctions {
             }
 
             u = zeros(shares.size());
+
             player.sendValueToPlayer(1, r1s);
             player.sendValueToPlayer(2, r2s);
 
@@ -236,14 +236,15 @@ public class SharemindSecretFunctions {
                 BigInteger r = new BigInteger(vals.get(i));
 
                 u.add(value.add(r).mod(mod).toByteArray());
+
             }
 
         }
+
         return u;
     }
 
     public List<byte[]> shareConv(List<byte[]> shares, Player player) {
-
         List<byte[]> vs = new ArrayList<byte[]>();
 
         if (player.getPlayerID() == 0) {
@@ -259,7 +260,7 @@ public class SharemindSecretFunctions {
                 BigInteger m = b.xor(value);
                 BigInteger m12 = getRandom();
                 BigInteger m13 = m.subtract(m12).mod(mod);
-                BigInteger b12 = new BigInteger(1, RandomGenerator.generator);
+                BigInteger b12 =  new BigInteger(1, RandomGenerator.generator);
                 BigInteger b13 = b.xor(b12);
 
                 m12s.add(m12.toByteArray());
@@ -345,6 +346,7 @@ public class SharemindSecretFunctions {
         } else {
 
             int half = getHalf();
+
             SubVector firstSub = subVector(shares, 0, half);
             SubVector secondSub = subVector(shares, half, nbits);
 
@@ -493,10 +495,12 @@ public class SharemindSecretFunctions {
                 if (value.testBit(i)) {
                     bitI = BigInteger.ONE;
                 }
+
                 bitIs.add(bitI.toByteArray());
             }
 
             List<byte[]> multRes = ssf.mult(bitIs, bitHalfs, p);
+
 
             for (int j = 0; j < multRes.size(); j++) {
                 BigInteger bitI = new BigInteger(bitIs.get(j));
@@ -509,6 +513,7 @@ public class SharemindSecretFunctions {
                     BigInteger original = new BigInteger(originals.get(j));
                     originals.set(j, original.flipBit(i).toByteArray());
                 }
+
             }
         }
         return originals;
@@ -522,7 +527,7 @@ public class SharemindSecretFunctions {
     }
 
     /*
-     * Most Non Significant Zero Bit Turns a bit array of the type 00111 to
+     * Most Non Significant Zero Bit. Turns a bit array of the type 00111 to
      * 00100. Turns every bit one to zero. For that it uses a xor. This
      * operation does not require any round of communication.
      */
@@ -575,7 +580,9 @@ public class SharemindSecretFunctions {
         }
 
         SharemindSecretFunctions ssf = new SharemindSecretFunctions(nbits, mod);
+
         List<byte[]> ss = ssf.msnzb(ps, player);
+
         List<byte[]> u3s;
         if (player.getPlayerID() == 2) {
             SharemindBitVectorDealer dealer;
@@ -597,6 +604,7 @@ public class SharemindSecretFunctions {
         } else {
             u3s = player.getValues(2);
         }
+
         return shareConv(overflowLoop(shares, ss, u3s, player), player);
     }
 
@@ -632,10 +640,9 @@ public class SharemindSecretFunctions {
             for (int j = 0; j < bitRes.size(); j++) {
                 BigInteger bitR = new BigInteger(bitRes.get(j));
                 lambdas.set(j, lambdas.get(j).xor(bitR));
-
             }
-
         }
+
         List<byte[]> results = new ArrayList<byte[]>();
         for (int i = 0; i < shares.size(); i++) {
             BigInteger value = new BigInteger(shares.get(i));
@@ -647,6 +654,7 @@ public class SharemindSecretFunctions {
             }
 
         }
+
         return results;
     }
 
@@ -668,7 +676,6 @@ public class SharemindSecretFunctions {
      */
     public List<byte[]> shiftL(List<byte[]> shares, int shiftLeftNBits) {
         List<byte[]> results = new ArrayList<byte[]>();
-
         for (byte[] share : shares) {
             BigInteger value = new BigInteger(share);
             BigInteger toShift = BigInteger.valueOf(2).pow(shiftLeftNBits);
@@ -683,11 +690,12 @@ public class SharemindSecretFunctions {
     public List<byte[]> shiftR(List<byte[]> shares, int shiftN, Player player)
             throws InvalidNumberOfBits, InvalidSecretValue {
 
+
         List<byte[]> reshared = reshareToTwo(shares, player);
 
         List<byte[]> shifted = shiftL(reshared, nbits - shiftN);
 
-        List<byte[]> desltaOnes = overflow(reshared, player);
+        List<byte[]> deltaOnes = overflow(reshared, player);
         List<byte[]> deltaTwos = overflow(shifted, player);
 
         List<byte[]> results = new ArrayList<byte[]>();
@@ -696,10 +704,12 @@ public class SharemindSecretFunctions {
             BigInteger v = new BigInteger(reshared.get(i));
             v = v.shiftRight(shiftN);
             BigInteger powerValue = BigInteger.valueOf(2).pow(nbits - shiftN);
-            BigInteger deltaOne = new BigInteger(desltaOnes.get(i));
+
+            BigInteger deltaOne = new BigInteger(deltaOnes.get(i));
             BigInteger deltaTwo = new BigInteger(deltaTwos.get(i));
             BigInteger result = v.subtract(powerValue.multiply(deltaOne))
                     .add(deltaTwo).mod(mod);
+
             results.add(result.toByteArray());
         }
 

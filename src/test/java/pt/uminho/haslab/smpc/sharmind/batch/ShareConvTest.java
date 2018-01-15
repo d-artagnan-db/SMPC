@@ -5,8 +5,8 @@ import pt.uminho.haslab.smpc.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.interfaces.Players;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindSecretFunctions;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindSharedSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindSecretFunctions;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindSharedSecret;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
 

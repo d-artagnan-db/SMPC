@@ -12,9 +12,9 @@ import java.util.List;
 
 public class ValuesGenerator {
     // Tests will run for numbers that use 80 bits at most.
-    public static final int maxBits = 31;
-    public static final int nValues = 1;
-    public static final int batchValues = 500000;
+    public static final int maxBits = 30;
+    public static final int nValues = 100;
+    public static final int batchValues = 100;
     private final static SecureRandom generator = new SecureRandom();
 
     /* Number of bits must be greater than 0 */
@@ -235,6 +235,28 @@ public class ValuesGenerator {
         return Arrays.asList(parameters);
     }
 
+    public static Collection LongBatchValuesGenerator(int localNValues, int localBatchValues) {
+        Object[] parameters = new Object[localNValues];
+
+        for (int i = 0; i < localNValues; i++) {
+            long[] firstValues = new long[localBatchValues];
+            long[] secondValues = new long[localBatchValues];
+
+            for (int j = 0; j < localBatchValues; j++) {
+                firstValues[j] =  RandomGenerator.nextLong();
+                secondValues[j] = RandomGenerator.nextLong();
+            }
+
+            Object[] parameter = new Object[2];
+            parameter[0] = firstValues;
+            parameter[1] = secondValues;
+
+            parameters[i] = parameter;
+        }
+
+        return Arrays.asList(parameters);
+    }
+
     public static Collection TwoValuesGenerator() {
         Object[] parameters = new Object[nValues];
 
@@ -276,6 +298,30 @@ public class ValuesGenerator {
             parameter[1] = firstValues;
             parameter[2] = secondValues;
 
+            parameters[i] = parameter;
+        }
+
+        return Arrays.asList(parameters);
+    }
+
+
+    public static Collection TwoValuesIntBatchGenerator(int localNValues, int localBatchValues) {
+        Object[] parameters = new Object[localNValues];
+
+        for (int i = 0; i < localNValues; i++) {
+
+            int[] firstValues = new int[localBatchValues];
+            int[] secondValues = new int[localBatchValues];
+
+
+            for (int j = 0; j < localBatchValues; j++) {
+                firstValues[j] =  RandomGenerator.nextInt();
+                secondValues[j] = RandomGenerator.nextInt();
+            }
+
+            Object[] parameter = new Object[2];
+            parameter[0] = firstValues;
+            parameter[1] = secondValues;
             parameters[i] = parameter;
         }
 

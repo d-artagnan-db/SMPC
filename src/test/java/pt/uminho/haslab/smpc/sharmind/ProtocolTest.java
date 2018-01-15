@@ -6,7 +6,7 @@ import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smpc.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
 import pt.uminho.haslab.smpc.interfaces.Players;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindSecret;
 import pt.uminho.haslab.smpc.sharmind.helpers.DbTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.TestPlayer;
 import pt.uminho.haslab.smpc.sharmind.helpers.TestPlayers;

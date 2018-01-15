@@ -14,22 +14,61 @@ public class RandomGenerator {
     private static int singleBitIndex;
     private static int totalValuesCache;
 
-    private static int valuesCache;
+
     private static int[] intCache;
     private static int intCacheIndex;
 
+    private static long[] longCache;
+    private static int longCacheIndex;
+
+    public static int intMod(int value) {
+        int ring = (int) Math.pow(2, 29);
+        return ((value % ring) + ring) % ring;
+
+    }
+
+
+
     public static int nextInt(){
-        return intCache[intCacheIndex++%valuesCache];
+        if (intCache != null) {
+            return intCache[Math.abs(intCacheIndex++ % intCache.length)];
+        } else {
+            return intMod(generator.nextInt());
+        }
     }
 
     public static void initIntBatch(int nValuesCache){
-        valuesCache  = nValuesCache;
         intCache = new int[nValuesCache];
 
-         for(int i = 0;  i < nValuesCache; i++){
-             intCache[i] = Math.abs(generator.nextInt());
-         }
-         intCacheIndex = 0;
+        for(int i = 0;  i < nValuesCache; i++){
+            intCache[i] = intMod(generator.nextInt());
+        }
+        intCacheIndex = 0;
+    }
+
+    public static long longMod(long value) {
+        long ring = (long) Math.pow(2, 61);
+        return ((value % ring) + ring) % ring;
+
+    }
+
+    public static long nextLong(){
+        if (longCache != null) {
+            return longCache[Math.abs(longCacheIndex++ % longCache.length)];
+        } else {
+            return longMod(generator.nextLong());
+        }
+    }
+
+
+
+    public static void initLongBatch(int nValuesCache){
+        longCache = new long[nValuesCache];
+
+        for(int i = 0;  i < nValuesCache; i++){
+            longCache[i] = longMod(generator.nextLong());
+        }
+        longCacheIndex = 0;
     }
 
     public static void initBatch(int nBits, int nValuesCache){
@@ -53,6 +92,7 @@ public class RandomGenerator {
 
 
     public static synchronized BigInteger getRandom(){
+
         return cache[nValuesCacheIndex++ % totalValuesCache];
     }
     

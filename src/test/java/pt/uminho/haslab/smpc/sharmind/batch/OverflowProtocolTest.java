@@ -5,8 +5,8 @@ import pt.uminho.haslab.smpc.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.interfaces.Players;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindSecretFunctions;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindSharedSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindSecretFunctions;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindSharedSecret;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
 
@@ -30,12 +30,11 @@ public class OverflowProtocolTest extends BatchProtocolTest {
         valuesTwo = new ArrayList<byte[]>();
         valuesThree = new ArrayList<byte[]>();
 
-        for (int i = 0; i < u2s.size(); i++) {
+       for (int i = 0; i < 1; i++) {
             valuesOne.add(BigInteger.ZERO.toByteArray());
             valuesTwo.add(u2s.get(i).toByteArray());
             valuesThree.add(u3s.get(i).toByteArray());
         }
-
     }
 
     @Parameterized.Parameters
@@ -85,6 +84,7 @@ public class OverflowProtocolTest extends BatchProtocolTest {
 
             if (!valueThree.equals(BigInteger.ZERO)
                     && (compared == 1 || compared == 0)) {
+                System.out.println("expected 1 and res is " +  secret.unshare());
                 assertEquals(BigInteger.ONE, secret.unshare());
             } else {
                 assertEquals(BigInteger.ZERO, secret.unshare());

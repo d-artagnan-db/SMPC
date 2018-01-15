@@ -1,8 +1,7 @@
-package pt.uminho.haslab.smpc.sharemindImp;
+package pt.uminho.haslab.smpc.sharemindImp.BigInteger;
 
 import pt.uminho.haslab.smpc.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
-import pt.uminho.haslab.smpc.helpers.RandomGenerator;
 import pt.uminho.haslab.smpc.helpers.RangeChecker;
 import pt.uminho.haslab.smpc.interfaces.SharedSecret;
 
@@ -16,11 +15,10 @@ public class SharemindBitVectorDealer extends AbstractSharemindDealer {
 
     }
 
-    @Override
     public SharedSecret share(BigInteger value) throws InvalidSecretValue {
         RangeChecker.check(this.nbits, value);
-        BigInteger u1 = new BigInteger(this.nbits, RandomGenerator.generator);
-        BigInteger u2 = new BigInteger(this.nbits, RandomGenerator.generator);
+        BigInteger u1 = BigInteger.ZERO; // new BigInteger(this.nbits, RandomGenerator.generator);
+        BigInteger u2 = BigInteger.ZERO;  //new BigInteger(this.nbits, RandomGenerator.generator);
         BigInteger u3 = value.xor(u1).xor(u2);
 
         return new SharemindBitVectorSharedSecret(nbits, u1, u2, u3);

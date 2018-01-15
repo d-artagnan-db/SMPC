@@ -1,4 +1,4 @@
-package pt.uminho.haslab.smpc.sharemindImp;
+package pt.uminho.haslab.smpc.sharemindImp.BigInteger;
 
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
 import pt.uminho.haslab.smpc.interfaces.Player;

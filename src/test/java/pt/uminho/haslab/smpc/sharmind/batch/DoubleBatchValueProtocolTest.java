@@ -7,8 +7,8 @@ import pt.uminho.haslab.smpc.helpers.RandomGenerator;
 import pt.uminho.haslab.smpc.interfaces.Dealer;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.interfaces.Players;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindDealer;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindSharedSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindDealer;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindSharedSecret;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
 
@@ -27,6 +27,7 @@ public abstract class DoubleBatchValueProtocolTest extends BatchProtocolTest {
         super(nbits);
         this.firstValues = firstValues;
         this.secondValues = secondValues;
+
     }
 
     @Parameterized.Parameters

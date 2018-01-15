@@ -3,9 +3,9 @@ package pt.uminho.haslab.smpc.sharmind;
 import pt.uminho.haslab.smpc.exceptions.InvalidNumberOfBits;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
 import pt.uminho.haslab.smpc.interfaces.*;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindBitVectorDealer;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindBitVectorSecret;
-import pt.uminho.haslab.smpc.sharemindImp.SharemindBitVectorSharedSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindBitVectorDealer;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindBitVectorSecret;
+import pt.uminho.haslab.smpc.sharemindImp.BigInteger.SharemindBitVectorSharedSecret;
 import pt.uminho.haslab.smpc.sharmind.helpers.DbTest;
 
 import java.math.BigInteger;
