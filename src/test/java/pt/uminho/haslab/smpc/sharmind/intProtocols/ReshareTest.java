@@ -5,7 +5,6 @@ import pt.uminho.haslab.smpc.sharemindImp.Integer.IntSharemindDealer;
 import pt.uminho.haslab.smpc.sharemindImp.Integer.IntSharemindSecretFunctions;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 
-
 import static junit.framework.TestCase.assertEquals;
 
 public class ReshareTest extends SingleBatchValueProtocolTest {

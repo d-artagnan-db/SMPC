@@ -5,8 +5,6 @@ import pt.uminho.haslab.smpc.interfaces.Players;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class TestPlayers implements Players {
 

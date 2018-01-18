@@ -15,13 +15,14 @@ import static org.junit.Assert.assertEquals;
 
 public class GreaterOrEqualThanTest extends DoubleBatchProtocolTest {
 
+    public GreaterOrEqualThanTest(long[] firstValues, long[] secondValues) {
+        super(63, firstValues, secondValues);
+    }
+
     @Parameterized.Parameters
     public static Collection nbitsValues() {
         RandomGenerator.initLongBatch(100);
         return ValuesGenerator.LongBatchValuesGenerator(100,100);
-    }
-    public GreaterOrEqualThanTest(long[] firstValues, long[] secondValues) {
-        super(63, firstValues, secondValues);
     }
 
     public long[] runProtocol(long[] firstShares, long[] secondShares, Player player) {
