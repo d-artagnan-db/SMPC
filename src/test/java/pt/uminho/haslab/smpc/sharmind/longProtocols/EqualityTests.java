@@ -2,6 +2,7 @@ package pt.uminho.haslab.smpc.sharmind.longProtocols;
 
 
 import org.junit.runners.Parameterized;
+import pt.uminho.haslab.smpc.helpers.RandomGenerator;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.sharemindImp.Long.LongSharemindDealer;
 import pt.uminho.haslab.smpc.sharemindImp.Long.LongSharemindSecretFunctions;
