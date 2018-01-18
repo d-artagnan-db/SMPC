@@ -2,7 +2,6 @@ package pt.uminho.haslab.smpc.sharmind.longProtocols;
 
 
 import org.junit.runners.Parameterized;
-import pt.uminho.haslab.smpc.helpers.RandomGenerator;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.sharemindImp.Long.LongSharemindDealer;
 import pt.uminho.haslab.smpc.sharemindImp.Long.LongSharemindSecretFunctions;
@@ -17,13 +16,13 @@ public class EqualityTests extends DoubleBatchProtocolTest{
     
     public EqualityTests(long[] firstValues, long[] secondValues)
     {
-        super(31, firstValues, secondValues);
+        super(62, firstValues, secondValues);
     }
 
     /* Overrides default */
     @Parameterized.Parameters
     public static Collection nbitsValues() {
-        RandomGenerator.initLongBatch(10000);
+        RandomGenerator.initLongBatch(100);
         return ValuesGenerator.LongBatchValuesGenerator(100, 100);
     }
 
@@ -49,10 +48,10 @@ public class EqualityTests extends DoubleBatchProtocolTest{
             shares[0] = db1Results[i];
             shares[1] = db2Results[i];
             shares[2] = db3Results[i];
-
             long result = dealer.unshareBit(shares);
+
             boolean comparisonResult = firstValues[i] == secondValues[i];
-            int expectedResult = comparisonResult ? 1 : 0;
+            long expectedResult = comparisonResult ? 1L : 0L;
             assertEquals(expectedResult, result);
 
         }

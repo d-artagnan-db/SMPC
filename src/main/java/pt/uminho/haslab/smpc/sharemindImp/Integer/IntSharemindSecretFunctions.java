@@ -68,7 +68,7 @@ public class IntSharemindSecretFunctions {
 
         for (int i = 0; i < shares.length; i++) {
             int result = (shares[i] + randomValues[i]) - receivedValues[i];
-            results[i] = Math.abs(result) % 2;
+            results[i] = mod(result) % 2;
         }
         return results;
     }
@@ -156,7 +156,11 @@ public class IntSharemindSecretFunctions {
             player.sendValueToPlayer(2, r2s);
 
             for (int i = 0; i < s1.length; i++) {
-                ps[i] = (int) (Math.pow(2, 30) - 1);
+                /**
+                 * This number is not magical. It is the greatest possible number on the ring for ints.
+                 *  2^30 -1
+                 * */
+                ps[i] = 1073741823;
             }
         } else {
 

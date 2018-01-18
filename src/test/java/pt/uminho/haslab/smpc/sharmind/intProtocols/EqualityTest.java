@@ -22,7 +22,7 @@ public class EqualityTest extends DoubleBatchProtocolTest {
     /* Overrides default */
     @Parameterized.Parameters
     public static Collection nbitsValues() {
-        RandomGenerator.initIntBatch(10000);
+        RandomGenerator.initIntBatch(100);
         return ValuesGenerator.IntBatchValuesGenerator(100, 100);
     }
 
@@ -50,6 +50,7 @@ public class EqualityTest extends DoubleBatchProtocolTest {
             shares[2] = db3Results[i];
 
             int result = dealer.unshareBit(shares);
+
             boolean comparisonResult = firstValues[i] == secondValues[i];
             int expectedResult = comparisonResult ? 1 : 0;
             assertEquals(expectedResult, result);

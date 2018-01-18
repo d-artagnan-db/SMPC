@@ -2,7 +2,6 @@ package pt.uminho.haslab.smpc.sharmind.longProtocols;
 
 import org.junit.runners.Parameterized;
 import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
-import pt.uminho.haslab.smpc.helpers.RandomGenerator;
 import pt.uminho.haslab.smpc.interfaces.Player;
 import pt.uminho.haslab.smpc.sharemindImp.Long.LongSharemindDealer;
 import pt.uminho.haslab.smpc.sharemindImp.Long.LongSharemindSecretFunctions;
@@ -21,8 +20,8 @@ public class GreaterOrEqualThanTest extends DoubleBatchProtocolTest {
 
     @Parameterized.Parameters
     public static Collection nbitsValues() {
-        RandomGenerator.initLongBatch(100);
-        return ValuesGenerator.LongBatchValuesGenerator(100,100);
+        //RandomGenerator.initLongBatch(100);
+        return ValuesGenerator.LongBatchValuesGenerator(1,1);
     }
 
     public long[] runProtocol(long[] firstShares, long[] secondShares, Player player) {

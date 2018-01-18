@@ -68,7 +68,7 @@ public class LongSharemindSecretFunctions {
 
         for (int i = 0; i < shares.length; i++) {
             long result = (shares[i] + randomValues[i]) - receivedValues[i];
-            results[i] = Math.abs(result) % 2;
+            results[i] = mod(result) % 2;
         }
         return results;
     }
@@ -157,8 +157,13 @@ public class LongSharemindSecretFunctions {
             player.sendValueToPlayer(2, r2s);
 
             for (int i = 0; i < s1.length; i++) {
-                ps[i] = (long) (Math.pow(2, 62) - 1);
+                /**
+                 * This number is not magical. It is the greast possible number on the ring for longs.
+                 *  2^62 -1
+                 * */
+                ps[i] = 4611686018427387903L;
             }
+
         } else {
 
             long[] rs = player.getLongValues(0);
@@ -186,7 +191,7 @@ public class LongSharemindSecretFunctions {
         long[] ones = new long[size];
 
         for (int i = 0; i < size; i++) {
-            ones[i] = 1;
+            ones[i] = 1L;
         }
 
         return ones;
@@ -197,7 +202,7 @@ public class LongSharemindSecretFunctions {
         long[] ones = new long[size];
 
         for (int i = 0; i < size; i++) {
-            ones[i] = 0;
+            ones[i] = 0L;
         }
 
         return ones;
@@ -212,7 +217,7 @@ public class LongSharemindSecretFunctions {
 
             for (int j = 0; j < ps.length; j++) {
 
-                bitVals[j] = (ps[j] >> i) & 1;
+                bitVals[j] = (ps[j] >> i) & 1L;
 
             }
 

@@ -2,6 +2,7 @@ package pt.uminho.haslab.smpc.helpers;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Arrays;
 
 public class RandomGenerator {
     public static SecureRandom generator = new SecureRandom();
