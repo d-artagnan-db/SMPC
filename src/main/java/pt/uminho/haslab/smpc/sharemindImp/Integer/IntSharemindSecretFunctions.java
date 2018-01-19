@@ -141,21 +141,21 @@ public class IntSharemindSecretFunctions {
 
     public int[] equal(int[] s1, int[] s2, Player player) {
 
-        int[] ps = new int[s1.length];
+        int[] ps = new int[s2.length];
         if (player.getPlayerID() == 0) {
 
-            int[] r1s = new int[s1.length];
+            int[] r1s = new int[s2.length];
             int[] r2s = new int[s2.length];
 
-            for (int i = 0; i < s1.length; i++) {
+            for (int i = 0; i < s2.length; i++) {
                 r1s[i] = getRandom();
-                r2s[i] = mod((s1[i] - s2[i]) - r1s[i]);
+                r2s[i] = mod((s1[0] - s2[i]) - r1s[i]);
             }
 
             player.sendValueToPlayer(1, r1s);
             player.sendValueToPlayer(2, r2s);
 
-            for (int i = 0; i < s1.length; i++) {
+            for (int i = 0; i < s2.length; i++) {
                 /**
                  * This number is not magical. It is the greatest possible number on the ring for ints.
                  *  2^30 -1
@@ -165,10 +165,10 @@ public class IntSharemindSecretFunctions {
         } else {
 
             int[] rs = player.getIntValues(0);
-            int[] es = new int[s1.length];
+            int[] es = new int[s2.length];
 
-            for (int i = 0; i < s1.length; i++) {
-                es[i] = mod((s1[i] - s2[i]) + rs[i]);
+            for (int i = 0; i < s2.length; i++) {
+                es[i] = mod((s1[0] - s2[i]) + rs[i]);
             }
 
             if (player.getPlayerID() == 1) {
@@ -516,7 +516,7 @@ public class IntSharemindSecretFunctions {
         int[] diffs = new int[v1.length];
 
         for (int i = 0; i < v1.length; i++) {
-            diffs[i] = mod(v1[i] - v2[i]);
+            diffs[i] = mod(v1[i] - v2[0]);
         }
         return reshare(shiftR(diffs, player), player);
 

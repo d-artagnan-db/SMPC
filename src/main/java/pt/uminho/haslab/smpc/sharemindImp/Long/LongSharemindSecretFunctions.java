@@ -142,21 +142,21 @@ public class LongSharemindSecretFunctions {
 
     public long[] equal(long[] s1, long[] s2, Player player) {
 
-        long[] ps = new long[s1.length];
+        long[] ps = new long[s2.length];
         if (player.getPlayerID() == 0) {
 
-            long[] r1s = new long[s1.length];
+            long[] r1s = new long[s2.length];
             long[] r2s = new long[s2.length];
 
-            for (int i = 0; i < s1.length; i++) {
+            for (int i = 0; i < s2.length; i++) {
                 r1s[i] = getRandom();
-                r2s[i] = mod((s1[i] - s2[i]) - r1s[i]);
+                r2s[i] = mod((s1[0] - s2[i]) - r1s[i]);
             }
 
             player.sendValueToPlayer(1, r1s);
             player.sendValueToPlayer(2, r2s);
 
-            for (int i = 0; i < s1.length; i++) {
+            for (int i = 0; i < s2.length; i++) {
                 /**
                  * This number is not magical. It is the greast possible number on the ring for longs.
                  *  2^62 -1
@@ -167,10 +167,10 @@ public class LongSharemindSecretFunctions {
         } else {
 
             long[] rs = player.getLongValues(0);
-            long[] es = new long[s1.length];
+            long[] es = new long[s2.length];
 
-            for (int i = 0; i < s1.length; i++) {
-                es[i] = mod((s1[i] - s2[i]) + rs[i]);
+            for (int i = 0; i < s2.length; i++) {
+                es[i] = mod((s1[0] - s2[i]) + rs[i]);
             }
 
             if (player.getPlayerID() == 1) {
@@ -515,7 +515,7 @@ public class LongSharemindSecretFunctions {
         long[] diffs = new long[v1.length];
 
         for (int i = 0; i < v1.length; i++) {
-            diffs[i] = mod(v1[i] - v2[i]);
+            diffs[i] = mod(v1[i] - v2[0]);
         }
         return reshare(shiftR(diffs, player), player);
 

@@ -4,7 +4,7 @@
     <groupId>pt.uminho.haslab</groupId>
     <artifactId>smpc</artifactId>
     <packaging>jar</packaging>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <name>smpc</name>
     <url>http://maven.apache.org</url>
     <properties>
