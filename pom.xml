@@ -42,4 +42,11 @@
             </resource>
         </resources>
     </build>
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>artifactory-releases</name>
+            <url>http://dump.lsd.di.uminho.pt:8080/artifactory/libs-release</url>
+        </repository>
+    </distributionManagement>
 </project>
