@@ -89,16 +89,18 @@ public class RandomGenerator {
         
         cacheNBits = nBits;
         activeCache = true;
+        nValuesCacheIndex = 0;
+        singleBitIndex = 0;
     }
 
 
     public static synchronized BigInteger getRandom(){
 
-        return cache[nValuesCacheIndex++ % totalValuesCache];
+        return cache[Math.abs(nValuesCacheIndex++ % totalValuesCache)];
     }
     
     public static synchronized BigInteger geRandomSingleBit(){
-        return  singleBit[singleBitIndex++ % totalValuesCache];
+        return  singleBit[Math.abs(singleBitIndex++ % totalValuesCache)];
     }
 
 
