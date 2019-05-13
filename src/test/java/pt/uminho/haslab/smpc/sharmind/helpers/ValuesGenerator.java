@@ -13,8 +13,8 @@ import java.util.List;
 public class ValuesGenerator {
     // Tests will run for numbers that use 80 bits at most.
     public static final int maxBits = 30;
-    public static final int nValues = 100000;
-    public static final int batchValues = 100000;
+    public static final int nValues = 50;
+    public static final int batchValues = 100;
     private final static SecureRandom generator = new SecureRandom();
 
     /* Number of bits must be greater than 0 */

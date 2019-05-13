@@ -48,5 +48,4 @@ public class EqualityTest extends DoubleBatchValueProtocolTest {
         }
     }
 
-    public static void main(String[] args){}
 }

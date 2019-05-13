@@ -31,6 +31,16 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>dk.alexandra.fresco</groupId>
+            <artifactId>core</artifactId>
+            <version>1.2.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>dk.alexandra.fresco</groupId>
+            <artifactId>spdz</artifactId>
+            <version>1.2.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>
@@ -42,11 +52,11 @@
             </resource>
         </resources>
     </build>
-    <distributionManagement>
+    <!--<distributionManagement>
         <repository>
             <id>central</id>
             <name>artifactory-releases</name>
             <url>http://dump.lsd.di.uminho.pt:8080/artifactory/libs-release</url>
         </repository>
-    </distributionManagement>
+    </distributionManagement>-->
 </project>
