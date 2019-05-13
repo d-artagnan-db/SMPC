@@ -57,7 +57,5 @@ public class EqualityTest extends DoubleBatchProtocolTest {
 
         }
     }
-    
-    public static void main(String[] args){
-    }
+
 }
