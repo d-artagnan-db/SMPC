@@ -22,8 +22,8 @@ public class EqualityTest extends DoubleBatchProtocolTest {
     /* Overrides default */
     @Parameterized.Parameters
     public static Collection nbitsValues() {
-        RandomGenerator.initIntBatch(100);
-        return ValuesGenerator.IntBatchValuesGenerator(100, 100);
+        RandomGenerator.initIntBatch(10);
+        return ValuesGenerator.IntBatchValuesGenerator(10, 10);
     }
 
 
