@@ -13,7 +13,7 @@ public class IntSharemindDealer {
 
     public int[] share(int secret) throws InvalidSecretValue {
 
-        if(!(secret >= 0 && secret < Math.pow(2, 31))){
+        if(!(secret >= 0 && secret < Math.pow(2, 30))){
             throw new InvalidSecretValue("Arguments must greaterThan 0 and lesser than 31 bits");
         }
 
