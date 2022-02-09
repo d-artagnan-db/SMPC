@@ -4,6 +4,8 @@ import pt.uminho.haslab.smpc.exceptions.InvalidSecretValue;
 import pt.uminho.haslab.smpc.helpers.RandomGenerator;
 import pt.uminho.haslab.smpc.interfaces.Player;
 
+import java.util.Arrays;
+
 public class IntSharemindSecretFunctions {
 
     private static final IntSharemindDealer dealer = new IntSharemindDealer();
@@ -30,7 +32,7 @@ public class IntSharemindSecretFunctions {
         int[] randomValues = new int[shares.length];
 
         for (int i = 0; i < shares.length; i++) {
-            randomValues[i] = getRandom();
+            randomValues[i] = mod(getRandom());
         }
 
         int dest = getDestPlayer(player);
@@ -79,6 +81,9 @@ public class IntSharemindSecretFunctions {
         int[] resharedS2 = reshare(s2, player);
 
         int[] reshared = new int[resharedS1.length + resharedS2.length];
+        System.arraycopy(resharedS1, 0, reshared, 0, resharedS1.length);
+        System.arraycopy(resharedS2, 0, reshared, resharedS1.length, resharedS2.length);
+
         int dest = getDestPlayer(player);
 
         player.sendValueToPlayer(dest, reshared);
