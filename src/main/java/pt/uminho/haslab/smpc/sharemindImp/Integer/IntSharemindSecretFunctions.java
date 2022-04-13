@@ -521,7 +521,7 @@ public class IntSharemindSecretFunctions {
         int[] diffs = new int[v1.length];
 
         for (int i = 0; i < v1.length; i++) {
-            diffs[i] = mod(v1[i] - v2[0]);
+            diffs[i] = mod(v1[i] - v2[i]);
         }
         return reshare(shiftR(diffs, player), player);
 
