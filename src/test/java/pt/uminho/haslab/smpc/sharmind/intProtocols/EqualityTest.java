@@ -22,8 +22,8 @@ public class EqualityTest extends DoubleBatchProtocolTest {
     /* Overrides default */
     @Parameterized.Parameters
     public static Collection nbitsValues() {
-        RandomGenerator.initIntBatch(10);
-        return ValuesGenerator.IntBatchValuesGenerator(10, 10);
+        RandomGenerator.initIntBatch(100);
+        return ValuesGenerator.IntBatchValuesGenerator(100, 100);
     }
 
 
@@ -33,7 +33,6 @@ public class EqualityTest extends DoubleBatchProtocolTest {
     }
 
     public void condition(BatchDbTest db1, BatchDbTest db2, BatchDbTest db3) {
-
         int[] db1Results = ((Db) db1).getProtocolResults();
         int[] db2Results = ((Db) db2).getProtocolResults();
         int[] db3Results = ((Db) db3).getProtocolResults();
@@ -42,7 +41,6 @@ public class EqualityTest extends DoubleBatchProtocolTest {
         assertEquals(db2Results.length, db3Results.length);
 
         IntSharemindDealer dealer = new IntSharemindDealer();
-
         for(int i = 0; i < db1Results.length; i++){
             int[] shares =  new int[3];
             shares[0] = db1Results[i];
@@ -56,8 +54,5 @@ public class EqualityTest extends DoubleBatchProtocolTest {
             assertEquals(expectedResult, result);
 
         }
-    }
-    
-    public static void main(String[] args){
     }
 }

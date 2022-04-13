@@ -9,6 +9,7 @@ import pt.uminho.haslab.smpc.sharmind.batch.BatchProtocolTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class DoubleBatchProtocolTest extends BatchProtocolTest {

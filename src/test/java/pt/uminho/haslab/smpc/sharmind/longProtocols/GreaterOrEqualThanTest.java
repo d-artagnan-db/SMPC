@@ -7,6 +7,7 @@ import pt.uminho.haslab.smpc.sharemindImp.Long.LongSharemindDealer;
 import pt.uminho.haslab.smpc.sharemindImp.Long.LongSharemindSecretFunctions;
 import pt.uminho.haslab.smpc.sharmind.helpers.BatchDbTest;
 import pt.uminho.haslab.smpc.sharmind.helpers.ValuesGenerator;
+import pt.uminho.haslab.smpc.helpers.RandomGenerator;
 
 import java.util.Collection;
 
@@ -20,8 +21,8 @@ public class GreaterOrEqualThanTest extends DoubleBatchProtocolTest {
 
     @Parameterized.Parameters
     public static Collection nbitsValues() {
-        //RandomGenerator.initLongBatch(100);
-        return ValuesGenerator.LongBatchValuesGenerator(1,1);
+        RandomGenerator.initLongBatch(100);
+        return ValuesGenerator.LongBatchValuesGenerator(100,100);
     }
 
     public long[] runProtocol(long[] firstShares, long[] secondShares, Player player) {
