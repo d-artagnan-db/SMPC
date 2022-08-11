@@ -24,7 +24,7 @@ public class IntSharemindSecretFunctions {
     }
 
     private int mod(int value) {
-        return  IntSharemindDealer.mod(value);
+        return IntSharemindDealer.mod(value);
     }
 
     public int[] reshare(int[] shares, Player player) {
@@ -73,6 +73,26 @@ public class IntSharemindSecretFunctions {
             results[i] = mod(result) % 2;
         }
         return results;
+    }
+
+    public int[] xorInt(int[] s1, int[] s2, Player player) {
+        int result[] = new int[s1.length];
+        int subtraction[] = new int[s1.length];
+        int defaultSubtractionValue = 0;
+
+        if (player.getPlayerID() == 0) {
+            defaultSubtractionValue = 2;
+        }
+        Arrays.fill(subtraction, defaultSubtractionValue);
+
+        int[] subtractionShares = this.mult(this.mult(subtraction, s1, player), s2, player);
+
+        for (int i = 0; i < s1.length; i++) {
+            result[i] = s1[i] + s2[i] - subtractionShares[i];
+
+
+        }
+        return result;
     }
 
     public int[] mult(int[] s1, int[] s2, Player player) {
@@ -524,6 +544,56 @@ public class IntSharemindSecretFunctions {
             diffs[i] = mod(v1[i] - v2[i]);
         }
         return reshare(shiftR(diffs, player), player);
+
+    }
+
+    public int[] declassify(int[] v1, Player player) {
+
+        int[] unshared_values = new int[v1.length];
+
+        if (player.getPlayerID() == 0) {
+            int[] player_one_shares = player.getIntValues(1);
+            int[] player_two_shares = player.getIntValues(2);
+
+            for (int i = 0; i < v1.length; i++) {
+                int[] valueShares = new int[]{v1[i], player_one_shares[i], player_two_shares[i]};
+                unshared_values[i] = dealer.unshare(valueShares);
+            }
+            player.sendValueToPlayer(1, unshared_values);
+            player.sendValueToPlayer(2, unshared_values);
+
+
+        } else {
+            player.sendValueToPlayer(0, v1);
+            unshared_values = player.getIntValues(0);
+        }
+
+        return unshared_values;
+
+    }
+
+    public int[] declassifyBit(int[] v1, Player player) {
+
+        int[] unshared_values = new int[v1.length];
+
+        if (player.getPlayerID() == 0) {
+            int[] player_one_shares = player.getIntValues(1);
+            int[] player_two_shares = player.getIntValues(2);
+
+            for (int i = 0; i < v1.length; i++) {
+                int[] valueShares = new int[]{v1[i], player_one_shares[i], player_two_shares[i]};
+                unshared_values[i] = dealer.unshareBit(valueShares);
+            }
+            player.sendValueToPlayer(1, unshared_values);
+            player.sendValueToPlayer(2, unshared_values);
+
+
+        } else {
+            player.sendValueToPlayer(0, v1);
+            unshared_values = player.getIntValues(0);
+        }
+
+        return unshared_values;
 
     }
 }
